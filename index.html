@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CC Creator Gallery</title>
-<meta name="description" content="India's beverage creator network — the content universe, told through visual concept thumbnails. A sister system to the operating model.">
+<meta name="description" content="India's beverage creator network — the content universe, told through animated concept scenes. A sister system to the operating model.">
 <style>
   :root{
     --black: #0a0a0a;
@@ -83,7 +83,6 @@
   h1,h2,h3{ font-family:var(--font); font-weight:900; letter-spacing:-0.03em; line-height:1.02; text-wrap:balance; }
   .accent{ color:var(--red); }
 
-  /* hero — short, gets straight to the brand picker */
   .hero{ padding:126px 0 56px; position:relative; }
   .hero h1{ font-size:clamp(2rem, 5vw, 3.4rem); max-width:660px; }
   .hero .sub{ margin-top:18px; max-width:540px; color:var(--grey); font-size:0.98rem; line-height:1.6; }
@@ -94,7 +93,6 @@
   .section-head h2{ font-size:clamp(1.7rem, 3.6vw, 2.5rem); }
   .section-head .sub{ margin-top:14px; color:var(--grey); font-size:0.96rem; line-height:1.6; max-width:620px; }
 
-  /* brand row selector */
   .brand-list{ border-top:1px solid var(--line-strong); margin-top:4px; }
   .brand-row{
     display:flex; align-items:center; gap:16px;
@@ -116,7 +114,6 @@
   .brand-row.is-active .name, .brand-row.is-active .val{ color:var(--cream); }
   .brand-row.is-active .brand-dot{ border-color:rgba(247,243,238,0.6); color:var(--cream); }
 
-  /* archetype visual gallery */
   .archetype-group{ margin-top:40px; }
   .archetype-group:first-of-type{ margin-top:0; }
   .archetype-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
@@ -126,7 +123,6 @@
   @media (max-width:980px){ .card-grid{ grid-template-columns:repeat(2, 1fr); } }
   @media (max-width:560px){ .card-grid{ grid-template-columns:1fr; } }
 
-  /* the card is almost entirely the thumbnail; text is a one-line caption */
   .card{
     background:var(--panel); border:1px solid var(--line); border-radius:12px;
     overflow:hidden; transition:border-color .2s ease, transform .2s ease;
@@ -137,6 +133,7 @@
   .card:focus-visible{ outline:none; }
   .card.is-hidden{ display:none; }
 
+  /* ---- animated scene thumbnail: multi-element illustration, not a single icon ---- */
   .thumb{
     position:relative; aspect-ratio:4/3; width:100%;
     background:
@@ -148,26 +145,37 @@
   .thumb::before{
     content:""; position:absolute; inset:0;
     background-image:repeating-linear-gradient(180deg, rgba(247,243,238,0.05) 0 1px, transparent 1px 4px);
-    opacity:0.35; mix-blend-mode:overlay;
+    opacity:0.3; mix-blend-mode:overlay; z-index:1;
   }
-  .glyph{ width:42%; max-width:88px; color:var(--cream); opacity:0.92; position:relative; z-index:1; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.5)); transition:transform .3s ease; }
-  .card:hover .glyph{ transform:scale(1.08); }
-  .glyph *{ fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
-  .glyph .fill-solid{ fill:currentColor; stroke:none; }
+  .thumb::after{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(247,243,238,0.14) 1px, transparent 1.4px);
+    background-size:14px 14px; opacity:0.4; z-index:1;
+  }
+  .scene-svg{ position:relative; z-index:2; width:82%; height:82%; color:var(--cream); overflow:visible; }
+  .scene-svg *{ fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+  .scene-svg .fill-solid{ fill:currentColor; stroke:none; }
+  .scene-svg g.beat-1, .scene-svg g.beat-2, .scene-svg g.beat-3{ transform-box:fill-box; transform-origin:center; }
+  .scene-svg g.beat-1{ animation:beatPulse 3.6s ease-in-out infinite; }
+  .scene-svg g.beat-2{ animation:beatRise 3.6s ease-in-out infinite; animation-delay:.55s; }
+  .scene-svg g.beat-3{ animation:beatTwinkle 3.6s ease-in-out infinite; animation-delay:1.1s; }
+  @keyframes beatPulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.1); } }
+  @keyframes beatRise{ 0%,100%{ transform:translateY(0); opacity:.94; } 50%{ transform:translateY(-3.5%); opacity:1; } }
+  @keyframes beatTwinkle{ 0%,38%,100%{ opacity:.45; } 18%{ opacity:1; } }
 
   .badge{
     position:absolute; font-size:0.6rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase;
-    padding:4px 8px; border-radius:100px; z-index:2;
+    padding:4px 8px; border-radius:100px; z-index:3;
   }
   .badge.concept{ top:8px; left:8px; background:rgba(10,10,10,0.55); color:var(--grey); border:1px solid var(--line-strong); backdrop-filter:blur(4px); }
   .badge.format{ bottom:8px; left:8px; right:38px; background:rgba(10,10,10,0.6); color:var(--cream); border:1px solid rgba(247,243,238,0.14); backdrop-filter:blur(4px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .play{
-    position:absolute; bottom:8px; right:8px; z-index:2;
+    position:absolute; bottom:8px; right:8px; z-index:3;
     width:26px; height:26px; border-radius:50%; background:var(--red);
     display:flex; align-items:center; justify-content:center; color:var(--cream);
     transition:transform .2s ease;
   }
-  .card:hover .play{ transform:scale(1.14); }
+  .card:hover .play{ transform:scale(1.16); }
   .play svg{ width:9px; height:9px; margin-left:1px; }
   .play svg *{ fill:currentColor; stroke:none; }
 
@@ -187,7 +195,6 @@
     color:var(--grey-dim); font-size:0.78rem; line-height:1.6; max-width:760px;
   }
 
-  /* genre visual gallery */
   .genre-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; }
   @media (max-width:980px){ .genre-grid{ grid-template-columns:repeat(2, 1fr); } }
   @media (max-width:560px){ .genre-grid{ grid-template-columns:1fr; } }
@@ -199,7 +206,7 @@
     letter-spacing:0.1em; text-transform:uppercase;
   }
 
-  /* ---- preview modal: this is where "play" actually does something ---- */
+  /* ---- preview modal: play button opens this and the scene plays larger + faster ---- */
   .modal-scrim{
     position:fixed; inset:0; z-index:100; background:rgba(5,4,4,0.82);
     backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
@@ -230,29 +237,31 @@
   .modal-stage::before{
     content:""; position:absolute; inset:0;
     background-image:repeating-linear-gradient(180deg, rgba(247,243,238,0.05) 0 1px, transparent 1px 4px);
-    opacity:0.3; mix-blend-mode:overlay;
+    opacity:0.28; mix-blend-mode:overlay; z-index:1;
   }
-  .modal-stage .glyph{ width:96px; max-width:26%; animation:pulse-glyph 2.2s ease-in-out infinite; }
-  @keyframes pulse-glyph{
-    0%,100%{ transform:scale(1); opacity:0.92; }
-    50%{ transform:scale(1.08); opacity:1; }
+  .modal-stage::after{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(247,243,238,0.14) 1px, transparent 1.4px);
+    background-size:16px 16px; opacity:0.4; z-index:1;
   }
+  .modal-stage .scene-svg{ width:88%; height:88%; z-index:2; }
+  .modal-stage .scene-svg g.beat-1{ animation-duration:1.9s; }
+  .modal-stage .scene-svg g.beat-2{ animation-duration:1.9s; animation-delay:.3s; }
+  .modal-stage .scene-svg g.beat-3{ animation-duration:1.9s; animation-delay:.6s; }
   .modal-ring{
-    position:absolute; border:1px solid rgba(247,243,238,0.16); border-radius:50%;
+    position:absolute; border:1px solid rgba(247,243,238,0.16); border-radius:50%; z-index:1;
     animation:ring-expand 2.2s ease-out infinite;
   }
   .modal-ring.r2{ animation-delay:.7s; }
   .modal-ring.r3{ animation-delay:1.4s; }
   @keyframes ring-expand{
     0%{ width:60px; height:60px; opacity:0.6; }
-    100%{ width:260px; height:260px; opacity:0; }
+    100%{ width:320px; height:320px; opacity:0; }
   }
-  .modal-badges{ position:absolute; top:14px; left:14px; display:flex; gap:6px; z-index:2; }
-  .modal-scrubber{
-    position:absolute; left:14px; right:14px; bottom:14px; z-index:2;
-  }
+  .modal-badges{ position:absolute; top:14px; left:14px; display:flex; gap:6px; z-index:3; }
+  .modal-scrubber{ position:absolute; left:14px; right:14px; bottom:14px; z-index:3; }
   .modal-scrubber .track{ height:3px; border-radius:2px; background:rgba(247,243,238,0.2); overflow:hidden; }
-  .modal-scrubber .fill{ height:100%; width:0%; background:var(--red); animation:scrub 3.4s linear infinite; }
+  .modal-scrubber .fill{ height:100%; width:0%; background:var(--red); animation:scrub 1.9s linear infinite; }
   @keyframes scrub{ from{ width:0%; } to{ width:100%; } }
   .modal-scrubber .time{ margin-top:6px; font-size:0.66rem; color:var(--grey); font-weight:700; letter-spacing:0.04em; display:flex; justify-content:space-between; font-variant-numeric:tabular-nums; }
 
@@ -275,11 +284,48 @@
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .card{ transition:none; }
-    .modal-stage .glyph, .modal-ring, .modal-scrubber .fill{ animation:none; }
+    .scene-svg g.beat-1, .scene-svg g.beat-2, .scene-svg g.beat-3, .modal-ring, .modal-scrubber .fill{ animation:none; }
   }
 </style>
 </head>
 <body>
+<!-- shared illustration parts — composed differently per card into full scenes below -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<defs>
+  <symbol id="sym-person" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.6"/><rect x="7.5" y="9" width="9" height="10" rx="3"/><line x1="9.5" y1="19" x2="9" y2="24"/><line x1="14.5" y1="19" x2="15" y2="24"/></symbol>
+  <symbol id="sym-person-side" viewBox="0 0 24 24"><circle cx="9" cy="5" r="2.6"/><path d="M7 9c3 0 6 1 7 4l3 3"/><line x1="10" y1="14" x2="8" y2="24"/><line x1="12" y1="16" x2="16" y2="24"/></symbol>
+  <symbol id="sym-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="10" rx="3"/><path d="M6 11a6 6 0 0 0 12 0"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></symbol>
+  <symbol id="sym-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><circle class="fill-solid" cx="12" cy="19" r="1.2"/></symbol>
+  <symbol id="sym-bubble" viewBox="0 0 24 24"><path d="M4 5h16v10H10l-3 4v-4H4z"/></symbol>
+  <symbol id="sym-house" viewBox="0 0 24 24"><path d="M4 12 L12 4 L20 12"/><path d="M6 11v9h12v-9"/></symbol>
+  <symbol id="sym-car" viewBox="0 0 24 24"><path d="M3 16h18l-2-6H8l-3 4z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></symbol>
+  <symbol id="sym-trophy" viewBox="0 0 24 24"><path d="M8 3h8v5a4 4 0 0 1-8 0z"/><path d="M8 4H4v2a4 4 0 0 0 4 4"/><path d="M16 4h4v2a4 4 0 0 1-4 4"/><line x1="12" y1="12" x2="12" y2="17"/><path d="M8 20h8l-1-3H9z"/></symbol>
+  <symbol id="sym-bowl" viewBox="0 0 24 24"><path d="M3 12a9 3 0 0 0 18 0"/><path d="M3 12c0-1.5 1-2 1-2h16s1 .5 1 2"/><path d="M9 6c-1-1.4 1-2.3 0-3.7"/><path d="M14 6c-1-1.4 1-2.3 0-3.7"/></symbol>
+  <symbol id="sym-tv" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><line x1="8" y1="20" x2="16" y2="20"/><circle class="fill-solid" cx="18" cy="7" r="0.8"/></symbol>
+  <symbol id="sym-crate" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="1"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="9" y1="6" x2="9" y2="20"/><line x1="15" y1="6" x2="15" y2="20"/></symbol>
+  <symbol id="sym-note" viewBox="0 0 24 24"><circle class="fill-solid" cx="7" cy="18" r="2.4"/><line x1="9.3" y1="18" x2="9.3" y2="4"/><path d="M9.3 4l6 2v4l-6-2"/></symbol>
+  <symbol id="sym-map" viewBox="0 0 24 24"><path d="M12 2c4 1 7 3 8 7 1 5-2 8-3 12-1 3-4 3-5 1-2-4-6-6-7-11-1-5 3-8 7-9z"/></symbol>
+  <symbol id="sym-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M9 12h6M12 9v6"/></symbol>
+  <symbol id="sym-gavel" viewBox="0 0 24 24"><rect x="12" y="3" width="4" height="8" rx="1" transform="rotate(45 14 7)"/><rect x="6" y="9" width="4" height="8" rx="1" transform="rotate(45 8 13)"/><line x1="4" y1="20" x2="14" y2="20"/></symbol>
+  <symbol id="sym-lightning" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></symbol>
+  <symbol id="sym-star" viewBox="0 0 24 24"><path d="M12 2l2.6 6 6.4.6-4.8 4.4 1.4 6.4-5.6-3.4-5.6 3.4 1.4-6.4L1.6 8.6l6.4-.6z"/></symbol>
+  <symbol id="sym-cart" viewBox="0 0 24 24"><rect x="3" y="8" width="14" height="8" rx="1"/><path d="M17 10h3l1 4h-4"/><circle cx="7" cy="18" r="1.6"/><circle cx="16" cy="18" r="1.6"/><path d="M6 8V5h6v3"/></symbol>
+  <symbol id="sym-drum" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v9a7 2.6 0 0 0 14 0V6"/><line x1="5" y1="10.5" x2="19" y2="10.5"/></symbol>
+  <symbol id="sym-cup" viewBox="0 0 24 24"><path d="M4 8h12v6a6 6 0 0 1-12 0z"/><path d="M16 9h2a3 3 0 0 1 0 6h-2"/><path d="M7 3c-1 1 1 2 0 3"/><path d="M11 3c-1 1 1 2 0 3"/></symbol>
+  <symbol id="sym-mask" viewBox="0 0 24 24"><path d="M4 10c0-4 4-7 8-7s8 3 8 7-3 9-8 9-8-5-8-9z"/><circle class="fill-solid" cx="9" cy="10" r="1.1"/><circle class="fill-solid" cx="15" cy="10" r="1.1"/><path d="M9 15c1.5 1 4.5 1 6 0"/></symbol>
+  <symbol id="sym-wave" viewBox="0 0 24 24"><line x1="4" y1="10" x2="4" y2="14"/><line x1="8" y1="6" x2="8" y2="18"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="16" y1="7" x2="16" y2="17"/><line x1="20" y1="10" x2="20" y2="14"/></symbol>
+  <symbol id="sym-can" viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="3"/><ellipse cx="12" cy="3" rx="4" ry="1.2"/><line x1="8" y1="8" x2="16" y2="8"/></symbol>
+  <symbol id="sym-robot" viewBox="0 0 24 24"><rect x="5" y="6" width="14" height="12" rx="4"/><circle class="fill-solid" cx="9.5" cy="12" r="1.3"/><circle class="fill-solid" cx="14.5" cy="12" r="1.3"/><path d="M9 15.5c1.2 1.2 4.8 1.2 6 0"/><line x1="12" y1="6" x2="12" y2="2"/><circle class="fill-solid" cx="12" cy="1.4" r="0.9"/></symbol>
+  <symbol id="sym-prism" viewBox="0 0 24 24"><path d="M12 3l9 15H3z"/><line x1="12" y1="3" x2="12" y2="18"/></symbol>
+  <symbol id="sym-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2-5"/><path d="M20 4v5h-5"/></symbol>
+  <symbol id="sym-shield" viewBox="0 0 24 24"><path d="M12 2 L20 5 V12 C20 18 16 21 12 23 C8 21 4 18 4 12 V5 Z"/><path d="M8.5 12 L11 14.5 L16 9"/></symbol>
+  <symbol id="sym-frame" viewBox="0 0 24 24"><path d="M4 4h4M4 4v4M20 4h-4M20 4v4M4 20h4M4 20v-4M20 20h-4M20 20v-4"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="sym-pin" viewBox="0 0 24 24"><path d="M12 3c-3.5 0-6 2.6-6 6 0 4.5 6 12 6 12s6-7.5 6-12c0-3.4-2.5-6-6-6z"/><circle cx="12" cy="9" r="2.2"/></symbol>
+  <symbol id="sym-pages" viewBox="0 0 24 24"><rect x="7" y="2" width="14" height="18" rx="1"/><rect x="3" y="6" width="14" height="18" rx="1" fill="var(--panel)"/><line x1="6" y1="12" x2="14" y2="12"/><line x1="6" y1="16" x2="14" y2="16"/></symbol>
+  <symbol id="sym-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle class="fill-solid" cx="12" cy="12" r="1.6"/><line x1="20" y1="4" x2="15" y2="9"/><path class="fill-solid" d="M20 4l-4 .5 3.5 3.5z"/></symbol>
+</defs>
+</svg>
+
 <div class="grid-overlay"></div>
 
 <header>
@@ -297,7 +343,6 @@
 
 <main>
 
-  <!-- HERO — short, gets straight to the brand picker -->
   <section class="hero wrap">
     <svg class="orbit orbit-hero" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="420" cy="220" r="90" stroke="rgba(247,243,238,0.14)" stroke-width="1"/>
@@ -313,10 +358,9 @@
       <span class="eyebrow">The Content Universe · 2,000 Creators</span>
     </div>
     <h1>Every range the network can produce, <span class="accent">shown in full.</span></h1>
-    <p class="sub">A companion to the operating model — this is the creative side. Scroll the gallery below, or tap any thumbnail to preview the concept. Filtered by whichever brand you want to see move.</p>
+    <p class="sub">A companion to the operating model — this is the creative side. Every thumbnail below is a small animated scene; tap any of them to play the full concept. Filtered by whichever brand you want to see move.</p>
   </section>
 
-  <!-- SECTION 01: BRAND WORLDS -->
   <section id="brand-worlds" class="wrap">
     <div class="section-head">
       <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">01 / Brand Worlds</span></div>
@@ -349,12 +393,11 @@
     </div>
   </section>
 
-  <!-- SECTION 02: CREATOR ARCHETYPE GALLERY -->
   <section id="creator-gallery" class="wrap">
     <div class="section-head">
       <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">02 / The Creator Archetype Gallery</span></div>
       <h2>Not a list. <span class="accent">A range of what's possible.</span></h2>
-      <p class="sub">Six ways a creator relationship can work — tap any thumbnail for the full concept. Real names referenced are illustrative style fits, not confirmed collaborations, endorsements, or commitments.</p>
+      <p class="sub">Six ways a creator relationship can work — every thumbnail is its own animated scene. Real names referenced are illustrative style fits, not confirmed collaborations, endorsements, or commitments.</p>
     </div>
 
     <div id="archetype-groups"></div>
@@ -365,12 +408,11 @@
     </div>
   </section>
 
-  <!-- SECTION 03: CONTENT GENRES -->
   <section id="content-genres" class="wrap">
     <div class="section-head">
       <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">03 / Content Genres</span></div>
       <h2>What creators <span class="accent">actually produce.</span></h2>
-      <p class="sub">Eleven formats. Tap any thumbnail to see how it plays out.</p>
+      <p class="sub">Eleven formats, eleven animated scenes. Tap any thumbnail to see how it plays out.</p>
     </div>
     <div class="genre-grid" id="genre-list"></div>
   </section>
@@ -382,7 +424,6 @@
   <p class="mark">CC Creator Gallery · A Sister System to the Operating Model · 2027</p>
 </footer>
 
-<!-- preview modal: tapping a thumbnail's play button opens this -->
 <div class="modal-scrim" id="modal-scrim" role="presentation">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <button class="modal-close" id="modal-close" aria-label="Close preview">✕</button>
@@ -390,7 +431,7 @@
       <div class="modal-ring r1"></div>
       <div class="modal-ring r2"></div>
       <div class="modal-ring r3"></div>
-      <svg class="glyph" id="modal-glyph" viewBox="0 0 64 64"></svg>
+      <div id="modal-scene"></div>
       <div class="modal-badges">
         <span class="badge concept" style="position:static;">Concept</span>
       </div>
@@ -414,79 +455,95 @@
 <script>
 (function(){
   var BRANDS = { "coca-cola":"Coca-Cola", "thums-up":"Thums Up", "sprite":"Sprite", "fanta":"Fanta", "diet-coke":"Diet Coke", "limca":"Limca" };
-
   var PLAY_ICON = '<svg viewBox="0 0 10 10"><path d="M0 0L10 5L0 10Z"/></svg>';
 
-  var GLYPHS = {
-    mic: '<rect x="24" y="8" width="16" height="26" rx="8"/><path d="M18 30a14 14 0 0 0 28 0"/><line x1="32" y1="44" x2="32" y2="54"/><line x1="22" y1="54" x2="42" y2="54"/>',
-    shield: '<path d="M32 6 L50 14 V30 C50 44 42 52 32 58 C22 52 14 44 14 30 V14 Z"/><path d="M24 32 L30 38 L42 24"/>',
-    bust: '<circle cx="32" cy="25" r="11"/><path d="M16 52c3-9 9-14 16-14s13 5 16 14"/><path d="M47 19c3 2 3 10 0 12"/><path d="M17 19c-3 2-3 10 0 12"/>',
-    home: '<path d="M12 30 L32 14 L52 30"/><line x1="18" y1="28" x2="18" y2="50"/><line x1="46" y1="28" x2="46" y2="50"/><line x1="18" y1="50" x2="46" y2="50"/><circle class="fill-solid" cx="26" cy="41" r="2.6"/><circle class="fill-solid" cx="32" cy="45" r="2.6"/><circle class="fill-solid" cx="38" cy="41" r="2.6"/>',
-    pin: '<path d="M32 8c-9 0-16 7-16 16 0 12 16 32 16 32s16-20 16-32c0-9-7-16-16-16z"/><circle cx="32" cy="24" r="6"/>',
-    bot: '<rect x="16" y="16" width="32" height="28" rx="10"/><circle class="fill-solid" cx="26" cy="30" r="3"/><circle class="fill-solid" cx="38" cy="30" r="3"/><path d="M24 38c3 3 13 3 16 0"/><line x1="32" y1="16" x2="32" y2="8"/><circle class="fill-solid" cx="32" cy="6" r="2"/>',
-    refresh: '<path d="M48 24a16 16 0 1 1-4-10"/><path d="M48 8v10h-10"/>',
-    star: '<path d="M32 6 L50 14 V30 C50 44 42 52 32 58 C22 52 14 44 14 30 V14 Z"/><path d="M32 20l2.6 6 6.4.6-4.8 4.4 1.4 6.4-5.6-3.4-5.6 3.4 1.4-6.4-4.8-4.4 6.4-.6z"/>',
-    duet: '<circle cx="24" cy="32" r="14"/><circle cx="40" cy="32" r="14"/>',
-    bowl: '<path d="M13 34a19 7 0 0 0 38 0"/><path d="M13 34c0-3 2-5 2-5h34s2 2 2 5"/><path d="M26 18c-2-3 2-5 0-8"/><path d="M35 18c-2-3 2-5 0-8"/>',
-    wave: '<line x1="14" y1="28" x2="14" y2="36"/><line x1="22" y1="20" x2="22" y2="44"/><line x1="30" y1="12" x2="30" y2="52"/><line x1="38" y1="22" x2="38" y2="42"/><line x1="46" y1="27" x2="46" y2="37"/><line x1="54" y1="30" x2="54" y2="34"/>',
-    hex: '<path d="M12 22 L32 10 L52 22 L52 46 L32 58 L12 46 Z"/><circle cx="32" cy="34" r="5"/>',
-    camera: '<rect x="12" y="22" width="40" height="26" rx="4"/><circle cx="32" cy="35" r="8"/><rect x="24" y="14" width="16" height="8" rx="2"/>',
-    ghost: '<circle cx="32" cy="32" r="20" stroke-dasharray="4 6"/>',
-    pages: '<rect x="19" y="8" width="28" height="36" rx="2"/><rect class="stack-front" x="15" y="16" width="28" height="36" rx="2" fill="var(--panel)"/><line x1="21" y1="26" x2="37" y2="26"/><line x1="21" y1="33" x2="37" y2="33"/><line x1="21" y1="40" x2="33" y2="40"/>',
-    target: '<circle cx="30" cy="34" r="18"/><circle cx="30" cy="34" r="10"/><circle class="fill-solid" cx="30" cy="34" r="3"/><line x1="44" y1="20" x2="33" y2="31"/><path class="fill-solid" d="M44 20l-7 1 6 6z"/>'
-  };
-
+  /* each scene is a small multi-element illustration: {sym, x, y, s(cale), r(otate), a(ccent), beat} */
   var ARCHETYPES = [
-    { num:"Archetype 01", name:"Celebrity IP", glyph:"mic", cards:[
-      { name:"The Comeback Host", ref:"Kapil Sharma", desc:"A veteran comedy talk-show host anchors a recurring bit on cross-generational nostalgia.", brands:["thums-up","coca-cola"], format:"Weekly talk format" },
-      { name:"The Multiverse Creator", ref:"Bhuvan Bam", desc:"One creator plays every character in a continuous, chaotic sketch storyline.", brands:["sprite","fanta"], format:"Serialised sketch" },
-      { name:"The Small-Town Storyteller", ref:"Zakir Khan", desc:"Hinglish, poetic stand-up turns an ordinary small-town memory into something mass and relatable.", brands:["limca","coca-cola"], format:"Long-form + cutdowns" },
-      { name:"The Hustle Interviewer", ref:"Ranveer Allahbadia", desc:"High-energy rapid-fire interviews wherever people already are.", brands:["diet-coke","thums-up"], format:"Street podcast" }
+    { num:"Archetype 01", name:"Celebrity IP", cards:[
+      { name:"The Comeback Host", ref:"Kapil Sharma", desc:"A veteran comedy talk-show host anchors a recurring bit on cross-generational nostalgia.", brands:["thums-up","coca-cola"], format:"Weekly talk format",
+        scene:[{sym:"mic",x:40,y:34,s:2.6,beat:1},{sym:"person",x:20,y:60,s:1.1,beat:2},{sym:"person",x:70,y:60,s:1.1,beat:2},{sym:"star",x:82,y:14,s:0.7,a:1,beat:3}] },
+      { name:"The Multiverse Creator", ref:"Bhuvan Bam", desc:"One creator plays every character in a continuous, chaotic sketch storyline.", brands:["sprite","fanta"], format:"Serialised sketch",
+        scene:[{sym:"phone",x:32,y:44,s:1.9,beat:1},{sym:"bubble",x:68,y:22,s:1.05,beat:2},{sym:"bubble",x:76,y:52,s:0.9,beat:2},{sym:"bubble",x:58,y:66,s:0.8,beat:3}] },
+      { name:"The Small-Town Storyteller", ref:"Zakir Khan", desc:"Hinglish, poetic stand-up turns an ordinary small-town memory into something mass and relatable.", brands:["limca","coca-cola"], format:"Long-form + cutdowns",
+        scene:[{sym:"house",x:28,y:42,s:1.8,beat:1},{sym:"mic",x:66,y:36,s:1.4,beat:2},{sym:"bubble",x:80,y:14,s:0.8,beat:3}] },
+      { name:"The Hustle Interviewer", ref:"Ranveer Allahbadia", desc:"High-energy rapid-fire interviews wherever people already are.", brands:["diet-coke","thums-up"], format:"Street podcast",
+        scene:[{sym:"car",x:28,y:56,s:1.5,beat:1},{sym:"person-side",x:60,y:32,s:1.5,beat:2},{sym:"mic",x:80,y:52,s:1.1,beat:3}] }
     ]},
-    { num:"Archetype 02", name:"Owned IP (brand-owned, no single face)", glyph:"shield", cards:[
-      { name:"Cold Court", ref:null, desc:"An owned mock-courtroom show settling regional flavour disputes, judged by a rotating live jury.", brands:["fanta"], format:"Owned biweekly show" },
-      { name:"The Thunder Trials", ref:null, desc:"An owned stunt-and-dare property tied to cricket-season energy, rotating hosts.", brands:["thums-up"], format:"Owned seasonal franchise" },
-      { name:"Frame by Frame", ref:null, desc:"A publication-style show reviewing films through the lens of drink placement and set design.", brands:["coca-cola"], format:"Owned weekly publication" },
-      { name:"Route to Cold", ref:null, desc:"An owned road-trip docuseries tracing how different regions of India cool down, one state per episode.", brands:["limca"], format:"Owned docuseries" }
+    { num:"Archetype 02", name:"Owned IP (brand-owned, no single face)", cards:[
+      { name:"Cold Court", ref:null, desc:"An owned mock-courtroom show settling regional flavour disputes, judged by a rotating live jury.", brands:["fanta"], format:"Owned biweekly show",
+        scene:[{sym:"gavel",x:26,y:28,s:1.6,beat:1},{sym:"person",x:70,y:44,s:1,beat:2},{sym:"person",x:84,y:44,s:1,beat:2},{sym:"star",x:14,y:60,s:0.6,a:1,beat:3}] },
+      { name:"The Thunder Trials", ref:null, desc:"An owned stunt-and-dare property tied to cricket-season energy, rotating hosts.", brands:["thums-up"], format:"Owned seasonal franchise",
+        scene:[{sym:"lightning",x:30,y:32,s:1.8,a:1,beat:1},{sym:"car",x:68,y:56,s:1.4,beat:2},{sym:"trophy",x:82,y:20,s:1,beat:3}] },
+      { name:"Frame by Frame", ref:null, desc:"A publication-style show reviewing films through the lens of drink placement and set design.", brands:["coca-cola"], format:"Owned weekly publication",
+        scene:[{sym:"frame",x:38,y:38,s:2,beat:1},{sym:"bubble",x:74,y:18,s:0.9,beat:2},{sym:"star",x:16,y:16,s:0.6,a:1,beat:3}] },
+      { name:"Route to Cold", ref:null, desc:"An owned road-trip docuseries tracing how different regions of India cool down, one state per episode.", brands:["limca"], format:"Owned docuseries",
+        scene:[{sym:"map",x:58,y:42,s:1.8,beat:1},{sym:"car",x:26,y:58,s:1.3,beat:2},{sym:"pin",x:82,y:18,s:1,a:1,beat:3}] }
     ]},
-    { num:"Archetype 03", name:"Talking Head", glyph:"bust", cards:[
-      { name:"The Roast Voice", ref:"CarryMinati", desc:"One camera, one blunt opinion, built for mass reach and comment-section fire.", brands:["thums-up"], format:"Solo commentary" },
-      { name:"The Dry Satirist", ref:"Kusha Kapila", desc:"Deadpan, character-led takes on whatever the internet is arguing about.", brands:["diet-coke","coca-cola"], format:"Character-led satire" },
-      { name:"The Trend Explainer Duo", ref:"Slayy Point", desc:"Two hosts break down why something suddenly took over the internet.", brands:["sprite","fanta"], format:"Explainer duo" },
-      { name:"The Frugal Logic Creator", ref:null, desc:"Reframes small daily money choices as a running, self-aware bit.", brands:["diet-coke"], format:"Daily micro-log" }
+    { num:"Archetype 03", name:"Talking Head", cards:[
+      { name:"The Roast Voice", ref:"CarryMinati", desc:"One camera, one blunt opinion, built for mass reach and comment-section fire.", brands:["thums-up"], format:"Solo commentary",
+        scene:[{sym:"person",x:30,y:48,s:1.7,beat:1},{sym:"bubble",x:70,y:24,s:1.1,beat:2},{sym:"mask",x:78,y:56,s:0.8,beat:3}] },
+      { name:"The Dry Satirist", ref:"Kusha Kapila", desc:"Deadpan, character-led takes on whatever the internet is arguing about.", brands:["diet-coke","coca-cola"], format:"Character-led satire",
+        scene:[{sym:"mask",x:38,y:38,s:2,beat:1},{sym:"bubble",x:74,y:20,s:1,beat:2},{sym:"star",x:18,y:16,s:0.6,a:1,beat:3}] },
+      { name:"The Trend Explainer Duo", ref:"Slayy Point", desc:"Two hosts break down why something suddenly took over the internet.", brands:["sprite","fanta"], format:"Explainer duo",
+        scene:[{sym:"person",x:26,y:48,s:1.3,beat:1},{sym:"person",x:48,y:48,s:1.3,beat:1},{sym:"phone",x:78,y:32,s:1.5,beat:2}] },
+      { name:"The Frugal Logic Creator", ref:null, desc:"Reframes small daily money choices as a running, self-aware bit.", brands:["diet-coke"], format:"Daily micro-log",
+        scene:[{sym:"coin",x:30,y:42,s:1.5,a:1,beat:1},{sym:"coin",x:46,y:56,s:1,a:1,beat:2},{sym:"phone",x:74,y:30,s:1.5,beat:3}] }
     ]},
-    { num:"Archetype 04", name:"Family Man", glyph:"home", cards:[
-      { name:"The Father–Son Duo", ref:null, desc:"Generational credibility transfer, one drink both eras agree on.", brands:["thums-up"], format:"Recurring home format" },
-      { name:"The Joint Family Chronicle", ref:null, desc:"Real festive/togetherness chaos inside a large household, unscripted.", brands:["coca-cola"], format:"Observational vlog" },
-      { name:"The Young Household", ref:null, desc:"Everyday domestic ritual content from a new-parent household.", brands:["limca"], format:"Daily-life vlog" },
-      { name:"The Sibling Banter Duo", ref:null, desc:"Everyday mischief between siblings, brand present but never the point.", brands:["fanta"], format:"Short-form banter" }
+    { num:"Archetype 04", name:"Family Man", cards:[
+      { name:"The Father–Son Duo", ref:null, desc:"Generational credibility transfer, one drink both eras agree on.", brands:["thums-up"], format:"Recurring home format",
+        scene:[{sym:"house",x:70,y:32,s:1.7,beat:1},{sym:"person",x:28,y:52,s:1.6,beat:2},{sym:"person",x:46,y:56,s:1.1,beat:2}] },
+      { name:"The Joint Family Chronicle", ref:null, desc:"Real festive/togetherness chaos inside a large household, unscripted.", brands:["coca-cola"], format:"Observational vlog",
+        scene:[{sym:"house",x:50,y:22,s:1.4,beat:1},{sym:"person",x:26,y:56,s:1.05,beat:2},{sym:"person",x:50,y:60,s:1.05,beat:2},{sym:"person",x:74,y:56,s:1.05,beat:3}] },
+      { name:"The Young Household", ref:null, desc:"Everyday domestic ritual content from a new-parent household.", brands:["limca"], format:"Daily-life vlog",
+        scene:[{sym:"house",x:30,y:36,s:1.7,beat:1},{sym:"person",x:68,y:52,s:1.4,beat:2},{sym:"star",x:82,y:18,s:0.6,a:1,beat:3}] },
+      { name:"The Sibling Banter Duo", ref:null, desc:"Everyday mischief between siblings, brand present but never the point.", brands:["fanta"], format:"Short-form banter",
+        scene:[{sym:"person",x:34,y:48,s:1.3,beat:1},{sym:"person",x:54,y:52,s:1.15,beat:2},{sym:"bubble",x:78,y:26,s:0.9,beat:3}] }
     ]},
-    { num:"Archetype 05", name:"Vocal For Local", glyph:"pin", cards:[
-      { name:"The South Culture Voice", ref:"Aiyyo Shraddha", desc:"Regional comedy that reads as genuinely local, never dubbed.", brands:["sprite","coca-cola"], format:"Regional-language shorts" },
-      { name:"The Punjabi Function Documentarian", ref:null, desc:"Real weddings and celebrations captured as they actually unfold.", brands:["thums-up"], format:"On-ground documentation" },
-      { name:"The Bengali Adda Host", ref:null, desc:"Conversation-first culture content, drink as ritual not prop.", brands:["fanta"], format:"Conversational series" },
-      { name:"The Maharashtrian Street-Food Specialist", ref:null, desc:"Hyper-local pairing content, thela to home kitchen.", brands:["limca"], format:"Regional food series" }
+    { num:"Archetype 05", name:"Vocal For Local", cards:[
+      { name:"The South Culture Voice", ref:"Aiyyo Shraddha", desc:"Regional comedy that reads as genuinely local, never dubbed.", brands:["sprite","coca-cola"], format:"Regional-language shorts",
+        scene:[{sym:"map",x:30,y:42,s:1.6,beat:1},{sym:"mic",x:68,y:36,s:1.5,beat:2},{sym:"star",x:84,y:14,s:0.6,a:1,beat:3}] },
+      { name:"The Punjabi Function Documentarian", ref:null, desc:"Real weddings and celebrations captured as they actually unfold.", brands:["thums-up"], format:"On-ground documentation",
+        scene:[{sym:"drum",x:34,y:42,s:1.7,beat:1},{sym:"person",x:70,y:52,s:1.3,beat:2},{sym:"star",x:82,y:16,s:0.6,a:1,beat:3}] },
+      { name:"The Bengali Adda Host", ref:null, desc:"Conversation-first culture content, drink as ritual not prop.", brands:["fanta"], format:"Conversational series",
+        scene:[{sym:"cup",x:32,y:46,s:1.7,beat:1},{sym:"bubble",x:68,y:24,s:1.1,beat:2},{sym:"cup",x:80,y:56,s:1,beat:3}] },
+      { name:"The Maharashtrian Street-Food Specialist", ref:null, desc:"Hyper-local pairing content, thela to home kitchen.", brands:["limca"], format:"Regional food series",
+        scene:[{sym:"cart",x:30,y:48,s:1.6,beat:1},{sym:"bowl",x:70,y:36,s:1.4,beat:2},{sym:"star",x:82,y:14,s:0.6,a:1,beat:3}] }
     ]},
-    { num:"Archetype 06", name:"Avatar-Led", glyph:"bot", cards:[
-      { name:"Thunder", ref:null, desc:"A deadpan animated mascot reacting to live cricket moments in exactly one word.", brands:["thums-up"], format:"Reactive animated clips" },
-      { name:"Prism", ref:null, desc:"A colour-shifting animated character rating outfit \"vibes\" against flavour colours.", brands:["fanta"], format:"Weekly animated segment" },
-      { name:"Cold Take", ref:null, desc:"A minimal talking-can character, one blunt opinion on trending topics daily.", brands:["sprite"], format:"Daily one-liner" },
-      { name:"The Archive", ref:null, desc:"An AI narrator revisiting one 2000s/2010s Indian pop-culture memory per post.", brands:["coca-cola","diet-coke"], format:"Nostalgia desk" }
+    { num:"Archetype 06", name:"Avatar-Led", cards:[
+      { name:"Thunder", ref:null, desc:"A deadpan animated mascot reacting to live cricket moments in exactly one word.", brands:["thums-up"], format:"Reactive animated clips",
+        scene:[{sym:"robot",x:40,y:42,s:2,beat:1},{sym:"lightning",x:74,y:22,s:1.2,a:1,beat:2}] },
+      { name:"Prism", ref:null, desc:"A colour-shifting animated character rating outfit \"vibes\" against flavour colours.", brands:["fanta"], format:"Weekly animated segment",
+        scene:[{sym:"prism",x:40,y:42,s:2,a:1,beat:1},{sym:"star",x:72,y:20,s:0.75,beat:2},{sym:"star",x:76,y:58,s:0.6,beat:3}] },
+      { name:"Cold Take", ref:null, desc:"A minimal talking-can character, one blunt opinion on trending topics daily.", brands:["sprite"], format:"Daily one-liner",
+        scene:[{sym:"can",x:38,y:42,s:1.9,beat:1},{sym:"bubble",x:74,y:24,s:1,beat:2}] },
+      { name:"The Archive", ref:null, desc:"An AI narrator revisiting one 2000s/2010s Indian pop-culture memory per post.", brands:["coca-cola","diet-coke"], format:"Nostalgia desk",
+        scene:[{sym:"tv",x:40,y:42,s:2,beat:1},{sym:"note",x:76,y:24,s:1.1,beat:2}] }
     ]}
   ];
 
   var GENRES = [
-    { name:"Recurring Creator Series", glyph:"refresh", def:"A creator's own show, recurring and brand-integrated.", ex:["Father–son household duo","Diet Coke Hustle Log"] },
-    { name:"Brand-Owned Franchises", glyph:"star", def:"Coca-Cola visibly owns it, creators rotate through.", ex:["Cold Court","The Thunder Trials"] },
-    { name:"Challenges & Participation", glyph:"duet", def:"A replicable action built for mass duet/remix.", ex:["Blind Fizz Test","Perfect Pour Challenge"] },
-    { name:"Food Pairings & Rituals", glyph:"bowl", def:"The drink inside an existing eating ritual, not the hero.", ex:["Thums Up Paani Puri","Midnight Maggi + Coke"] },
-    { name:"Music & Artist Properties", glyph:"wave", def:"Licensed or co-created sound-first moments.", ex:["Fizzstrumental","Rooftop Session"] },
-    { name:"Regional Culture Formats", glyph:"hex", def:"Native to one region's humour, festival or dialect.", ex:["Village Games Series","Matka-Chilled Coke"] },
-    { name:"Avatar-Led Content", glyph:"bot", def:"A fictional/animated persona as the recurring face.", ex:["Thunder","Cold Take"] },
-    { name:"UGC & CGC", glyph:"camera", def:"Real people making unscripted content the brand surfaces.", ex:["My Fridge, My Rules","Prove You Found 10"] },
-    { name:"White-Labelled Creator Content", glyph:"ghost", def:"Native placement, no visible brand authorship.", ex:["Study-With-Me, Coke in Frame","Driver-Vlogger Creators"] },
-    { name:"Publication-Led Formats", glyph:"pages", def:"A media-style page, not one creator's feed.", ex:["Frame by Frame","State of Fizz"] },
-    { name:"Paid-Ready Performance Assets", glyph:"target", def:"Organic winners restructured to run as paid media.", ex:["Perfect Pour cutdowns","Village Games, geo-targeted home"] }
+    { name:"Recurring Creator Series", def:"A creator's own show, recurring and brand-integrated.", ex:["Father–son household duo","Diet Coke Hustle Log"],
+      scene:[{sym:"refresh",x:36,y:38,s:1.8,a:1,beat:1},{sym:"tv",x:70,y:48,s:1.4,beat:2}] },
+    { name:"Brand-Owned Franchises", def:"Coca-Cola visibly owns it, creators rotate through.", ex:["Cold Court","The Thunder Trials"],
+      scene:[{sym:"trophy",x:40,y:42,s:2,beat:1},{sym:"star",x:74,y:20,s:0.8,a:1,beat:2}] },
+    { name:"Challenges & Participation", def:"A replicable action built for mass duet/remix.", ex:["Blind Fizz Test","Perfect Pour Challenge"],
+      scene:[{sym:"phone",x:32,y:42,s:1.6,beat:1},{sym:"phone",x:62,y:42,s:1.6,beat:2}] },
+    { name:"Food Pairings & Rituals", def:"The drink inside an existing eating ritual, not the hero.", ex:["Thums Up Paani Puri","Midnight Maggi + Coke"],
+      scene:[{sym:"bowl",x:36,y:46,s:1.8,beat:1},{sym:"can",x:70,y:34,s:1.4,beat:2}] },
+    { name:"Music & Artist Properties", def:"Licensed or co-created sound-first moments.", ex:["Fizzstrumental","Rooftop Session"],
+      scene:[{sym:"wave",x:34,y:44,s:1.8,beat:1},{sym:"note",x:70,y:30,s:1.4,beat:2}] },
+    { name:"Regional Culture Formats", def:"Native to one region's humour, festival or dialect.", ex:["Village Games Series","Matka-Chilled Coke"],
+      scene:[{sym:"map",x:34,y:42,s:1.8,beat:1},{sym:"drum",x:70,y:48,s:1.4,beat:2}] },
+    { name:"Avatar-Led Content", def:"A fictional/animated persona as the recurring face.", ex:["Thunder","Cold Take"],
+      scene:[{sym:"robot",x:40,y:42,s:2,beat:1},{sym:"lightning",x:74,y:22,s:1.1,a:1,beat:2}] },
+    { name:"UGC & CGC", def:"Real people making unscripted content the brand surfaces.", ex:["My Fridge, My Rules","Prove You Found 10"],
+      scene:[{sym:"phone",x:36,y:42,s:1.8,beat:1},{sym:"star",x:72,y:20,s:0.75,a:1,beat:2},{sym:"star",x:76,y:58,s:0.6,a:1,beat:3}] },
+    { name:"White-Labelled Creator Content", def:"Native placement, no visible brand authorship.", ex:["Study-With-Me, Coke in Frame","Driver-Vlogger Creators"],
+      scene:[{sym:"crate",x:34,y:46,s:1.6,beat:1},{sym:"car",x:70,y:52,s:1.4,beat:2}] },
+    { name:"Publication-Led Formats", def:"A media-style page, not one creator's feed.", ex:["Frame by Frame","State of Fizz"],
+      scene:[{sym:"pages",x:40,y:42,s:1.9,beat:1},{sym:"star",x:74,y:20,s:0.7,a:1,beat:2}] },
+    { name:"Paid-Ready Performance Assets", def:"Organic winners restructured to run as paid media.", ex:["Perfect Pour cutdowns","Village Games, geo-targeted home"],
+      scene:[{sym:"target",x:38,y:42,s:1.8,a:1,beat:1},{sym:"coin",x:72,y:26,s:1.1,beat:2}] }
   ];
 
   function thumbStyle(i){
@@ -496,9 +553,22 @@
     return '--angle:'+angle+'deg;--gx:'+gx+'%;--gy:'+gy+'%;';
   }
 
-  function thumbHTML(glyphKey, format, i){
+  function sceneSVG(scene){
+    var els = scene.map(function(p){
+      var style = p.a ? ' style="color:var(--red)"' : '';
+      var rot = p.r ? ' rotate('+p.r+')' : '';
+      return '<g transform="translate('+p.x+','+p.y+')'+rot+'"'+style+'>'
+        + '<g class="beat-'+p.beat+'">'
+        + '<g transform="scale('+p.s+')">'
+        + '<use href="#sym-'+p.sym+'" x="-12" y="-12" width="24" height="24"/>'
+        + '</g></g></g>';
+    }).join('');
+    return '<svg class="scene-svg" viewBox="0 0 100 80" preserveAspectRatio="xMidYMid meet">'+els+'</svg>';
+  }
+
+  function thumbHTML(scene, format, i){
     return '<div class="thumb" style="'+thumbStyle(i)+'">'
-      + '<svg class="glyph" viewBox="0 0 64 64">'+GLYPHS[glyphKey]+'</svg>'
+      + sceneSVG(scene)
       + '<span class="badge concept">Concept</span>'
       + (format ? '<span class="badge format">'+format+'</span>' : '')
       + '<span class="play">'+PLAY_ICON+'</span>'
@@ -515,7 +585,7 @@
       html += '<div class="card-grid">';
       group.cards.forEach(function(c, ci){
         html += '<button type="button" class="card" data-brands="'+c.brands.join(',')+'" data-kind="archetype" data-group="'+gi+'" data-index="'+ci+'">';
-        html += thumbHTML(group.glyph, c.format, counter++);
+        html += thumbHTML(c.scene, c.format, counter++);
         html += '<div class="cap"><h4>'+c.name+'</h4><div class="row2">';
         c.brands.forEach(function(b){ html += '<span class="brand-chip">'+BRANDS[b]+'</span>'; });
         html += '</div></div></button>';
@@ -530,7 +600,7 @@
     var html = '';
     GENRES.forEach(function(g, i){
       html += '<button type="button" class="card" data-kind="genre" data-index="'+i+'">';
-      html += thumbHTML(g.glyph, null, i + 40);
+      html += thumbHTML(g.scene, null, i + 40);
       html += '<div class="cap"><h4>'+g.name+'</h4><div class="row2"><span class="brand-chip">'+g.ex.length+' examples</span></div></div></button>';
     });
     root.innerHTML = html;
@@ -581,26 +651,25 @@
     sections.forEach(function(s){ observer.observe(s); });
   }
 
-  /* ---- preview modal ---- */
   var scrim = document.getElementById('modal-scrim');
   var stage = document.getElementById('modal-stage');
   var lastFocused = null;
 
   function openModal(kind, gi, idx){
-    var glyphKey, eyebrow, title, ref, desc, format, brands, examples;
+    var scene, eyebrow, title, ref, desc, format, brands, examples;
     if(kind === 'archetype'){
       var group = ARCHETYPES[gi];
       var c = group.cards[idx];
-      glyphKey = group.glyph; eyebrow = group.name; title = c.name; ref = c.ref;
+      scene = c.scene; eyebrow = group.name; title = c.name; ref = c.ref;
       desc = c.desc; format = c.format; brands = c.brands; examples = null;
     } else {
       var g = GENRES[idx];
-      glyphKey = g.glyph; eyebrow = 'Content Genre'; title = g.name; ref = null;
+      scene = g.scene; eyebrow = 'Content Genre'; title = g.name; ref = null;
       desc = g.def; format = null; brands = null; examples = g.ex;
     }
 
     stage.style.cssText = thumbStyle(gi * 7 + idx);
-    document.getElementById('modal-glyph').innerHTML = GLYPHS[glyphKey];
+    document.getElementById('modal-scene').innerHTML = sceneSVG(scene);
     document.getElementById('modal-eyebrow').textContent = eyebrow;
     document.getElementById('modal-title').textContent = title;
 
