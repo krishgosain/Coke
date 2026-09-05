@@ -117,26 +117,30 @@
   .brand-row.is-active .brand-dot{ border-color:rgba(247,243,238,0.6); color:var(--cream); }
 
   /* archetype visual gallery */
-  .archetype-group{ margin-top:44px; }
+  .archetype-group{ margin-top:40px; }
   .archetype-group:first-of-type{ margin-top:0; }
-  .archetype-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:16px; }
+  .archetype-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
   .archetype-num{ color:var(--red); font-weight:800; font-size:0.76rem; letter-spacing:0.1em; }
   .archetype-head h3{ font-size:1.2rem; font-weight:800; letter-spacing:-0.015em; }
-  .card-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; }
+  .card-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; }
   @media (max-width:980px){ .card-grid{ grid-template-columns:repeat(2, 1fr); } }
   @media (max-width:560px){ .card-grid{ grid-template-columns:1fr; } }
 
+  /* the card is almost entirely the thumbnail; text is a one-line caption */
   .card{
     background:var(--panel); border:1px solid var(--line); border-radius:12px;
     overflow:hidden; transition:border-color .2s ease, transform .2s ease;
+    cursor:pointer; text-align:left; padding:0; font-family:var(--font); color:inherit;
+    display:block; width:100%;
   }
-  .card:hover{ border-color:var(--line-strong); transform:translateY(-2px); }
+  .card:hover, .card:focus-visible{ border-color:var(--red); transform:translateY(-3px); }
+  .card:focus-visible{ outline:none; }
   .card.is-hidden{ display:none; }
 
   .thumb{
-    position:relative; aspect-ratio:16/10; width:100%;
+    position:relative; aspect-ratio:4/3; width:100%;
     background:
-      radial-gradient(120% 140% at var(--gx,70%) var(--gy,20%), rgba(244,0,9,0.32), transparent 55%),
+      radial-gradient(120% 140% at var(--gx,70%) var(--gy,20%), rgba(244,0,9,0.34), transparent 55%),
       linear-gradient(var(--angle,135deg), #1c0303 0%, #0c0505 55%, #050505 100%);
     display:flex; align-items:center; justify-content:center;
     overflow:hidden;
@@ -146,7 +150,8 @@
     background-image:repeating-linear-gradient(180deg, rgba(247,243,238,0.05) 0 1px, transparent 1px 4px);
     opacity:0.35; mix-blend-mode:overlay;
   }
-  .glyph{ width:38%; max-width:76px; color:var(--cream); opacity:0.92; position:relative; z-index:1; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.5)); }
+  .glyph{ width:42%; max-width:88px; color:var(--cream); opacity:0.92; position:relative; z-index:1; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.5)); transition:transform .3s ease; }
+  .card:hover .glyph{ transform:scale(1.08); }
   .glyph *{ fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
   .glyph .fill-solid{ fill:currentColor; stroke:none; }
 
@@ -155,26 +160,23 @@
     padding:4px 8px; border-radius:100px; z-index:2;
   }
   .badge.concept{ top:8px; left:8px; background:rgba(10,10,10,0.55); color:var(--grey); border:1px solid var(--line-strong); backdrop-filter:blur(4px); }
-  .badge.format{ bottom:8px; left:8px; right:8px; background:rgba(10,10,10,0.6); color:var(--cream); border:1px solid rgba(247,243,238,0.14); backdrop-filter:blur(4px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .badge.format{ bottom:8px; left:8px; right:38px; background:rgba(10,10,10,0.6); color:var(--cream); border:1px solid rgba(247,243,238,0.14); backdrop-filter:blur(4px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .play{
     position:absolute; bottom:8px; right:8px; z-index:2;
-    width:24px; height:24px; border-radius:50%; background:var(--red);
+    width:26px; height:26px; border-radius:50%; background:var(--red);
     display:flex; align-items:center; justify-content:center; color:var(--cream);
+    transition:transform .2s ease;
   }
+  .card:hover .play{ transform:scale(1.14); }
   .play svg{ width:9px; height:9px; margin-left:1px; }
   .play svg *{ fill:currentColor; stroke:none; }
 
-  .meta{ padding:12px 14px 14px; }
-  .meta h4{ font-size:0.92rem; font-weight:800; letter-spacing:-0.01em; line-height:1.25; }
-  .meta .styleref{ color:var(--red); font-size:0.7rem; font-weight:700; margin-top:3px; }
-  .meta .desc{
-    color:var(--grey-dim); font-size:0.76rem; margin-top:5px; line-height:1.4;
-    display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;
-  }
-  .meta .tags{ display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
-  .tag{
-    font-size:0.62rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
-    color:var(--grey-dim); border:1px solid var(--line-strong); border-radius:100px; padding:3px 8px;
+  .cap{ padding:9px 11px 11px; }
+  .cap h4{ font-size:0.86rem; font-weight:800; letter-spacing:-0.01em; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cap .row2{ margin-top:4px; display:flex; align-items:center; gap:6px; overflow:hidden; }
+  .cap .row2 .brand-chip{
+    flex-shrink:0; font-size:0.6rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--grey-dim);
   }
 
   .empty-note{ color:var(--grey-dim); font-size:0.9rem; padding:24px 0; display:none; }
@@ -186,19 +188,9 @@
   }
 
   /* genre visual gallery */
-  .genre-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+  .genre-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; }
   @media (max-width:980px){ .genre-grid{ grid-template-columns:repeat(2, 1fr); } }
-  @media (max-width:640px){ .genre-grid{ grid-template-columns:1fr; } }
-  .genre-card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  .genre-card .meta .g-def{
-    color:var(--grey-dim); font-size:0.76rem; margin-top:4px; line-height:1.4;
-    display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;
-  }
-  .genre-card .g-examples{ margin-top:8px; display:flex; flex-direction:column; gap:2px; }
-  .genre-card .g-examples span{
-    font-size:0.72rem; color:var(--grey); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  }
-  .genre-card .g-examples b{ color:var(--cream); font-weight:800; }
+  @media (max-width:560px){ .genre-grid{ grid-template-columns:1fr; } }
 
   footer{ padding:48px 0 52px; border-top:1px solid var(--line); }
   footer .disclaimer{ color:var(--grey-dim); font-size:0.8rem; line-height:1.7; max-width:760px; }
@@ -207,9 +199,83 @@
     letter-spacing:0.1em; text-transform:uppercase;
   }
 
+  /* ---- preview modal: this is where "play" actually does something ---- */
+  .modal-scrim{
+    position:fixed; inset:0; z-index:100; background:rgba(5,4,4,0.82);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  .modal-scrim.is-open{ opacity:1; pointer-events:auto; }
+  .modal{
+    width:100%; max-width:640px; background:var(--panel); border:1px solid var(--line-strong);
+    border-radius:16px; overflow:hidden; transform:translateY(10px) scale(0.98); transition:transform .22s ease;
+    max-height:90vh; display:flex; flex-direction:column;
+  }
+  .modal-scrim.is-open .modal{ transform:translateY(0) scale(1); }
+  .modal-close{
+    position:absolute; top:14px; right:14px; z-index:5; width:34px; height:34px; border-radius:50%;
+    background:rgba(10,10,10,0.6); border:1px solid var(--line-strong); color:var(--cream);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem;
+  }
+  .modal-close:hover{ background:var(--red); border-color:var(--red); }
+
+  .modal-stage{
+    position:relative; aspect-ratio:16/9; width:100%;
+    background:
+      radial-gradient(130% 150% at var(--gx,70%) var(--gy,20%), rgba(244,0,9,0.36), transparent 55%),
+      linear-gradient(var(--angle,135deg), #200404 0%, #0d0606 55%, #050505 100%);
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .modal-stage::before{
+    content:""; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(180deg, rgba(247,243,238,0.05) 0 1px, transparent 1px 4px);
+    opacity:0.3; mix-blend-mode:overlay;
+  }
+  .modal-stage .glyph{ width:96px; max-width:26%; animation:pulse-glyph 2.2s ease-in-out infinite; }
+  @keyframes pulse-glyph{
+    0%,100%{ transform:scale(1); opacity:0.92; }
+    50%{ transform:scale(1.08); opacity:1; }
+  }
+  .modal-ring{
+    position:absolute; border:1px solid rgba(247,243,238,0.16); border-radius:50%;
+    animation:ring-expand 2.2s ease-out infinite;
+  }
+  .modal-ring.r2{ animation-delay:.7s; }
+  .modal-ring.r3{ animation-delay:1.4s; }
+  @keyframes ring-expand{
+    0%{ width:60px; height:60px; opacity:0.6; }
+    100%{ width:260px; height:260px; opacity:0; }
+  }
+  .modal-badges{ position:absolute; top:14px; left:14px; display:flex; gap:6px; z-index:2; }
+  .modal-scrubber{
+    position:absolute; left:14px; right:14px; bottom:14px; z-index:2;
+  }
+  .modal-scrubber .track{ height:3px; border-radius:2px; background:rgba(247,243,238,0.2); overflow:hidden; }
+  .modal-scrubber .fill{ height:100%; width:0%; background:var(--red); animation:scrub 3.4s linear infinite; }
+  @keyframes scrub{ from{ width:0%; } to{ width:100%; } }
+  .modal-scrubber .time{ margin-top:6px; font-size:0.66rem; color:var(--grey); font-weight:700; letter-spacing:0.04em; display:flex; justify-content:space-between; font-variant-numeric:tabular-nums; }
+
+  .modal-body{ padding:20px 22px 24px; overflow-y:auto; }
+  .modal-body .eyebrow{ font-size:0.68rem; }
+  .modal-body h3{ margin-top:8px; font-size:1.4rem; letter-spacing:-0.02em; }
+  .modal-body .styleref{ color:var(--red); font-size:0.82rem; font-weight:700; margin-top:6px; }
+  .modal-body .desc{ margin-top:12px; color:var(--grey); font-size:0.92rem; line-height:1.6; }
+  .modal-body .tags{ margin-top:16px; display:flex; flex-wrap:wrap; gap:6px; }
+  .modal-body .tag{
+    font-size:0.66rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--grey-dim); border:1px solid var(--line-strong); border-radius:100px; padding:4px 10px;
+  }
+  .modal-body .tag.format{ color:var(--red); border-color:rgba(244,0,9,0.35); }
+  .modal-body .examples{ margin-top:14px; display:flex; flex-direction:column; gap:6px; }
+  .modal-body .examples span{ font-size:0.86rem; color:var(--grey); }
+  .modal-body .examples b{ color:var(--cream); font-weight:800; }
+  .modal-note{ margin-top:16px; font-size:0.74rem; color:var(--grey-dim); line-height:1.5; border-top:1px solid var(--line); padding-top:12px; }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .card{ transition:none; }
+    .modal-stage .glyph, .modal-ring, .modal-scrubber .fill{ animation:none; }
   }
 </style>
 </head>
@@ -247,7 +313,7 @@
       <span class="eyebrow">The Content Universe · 2,000 Creators</span>
     </div>
     <h1>Every range the network can produce, <span class="accent">shown in full.</span></h1>
-    <p class="sub">A companion to the operating model — this is the creative side. Scroll through the gallery below: six creator archetypes, twenty-four concept thumbnails, eleven content genres, filtered by whichever brand you want to see move.</p>
+    <p class="sub">A companion to the operating model — this is the creative side. Scroll the gallery below, or tap any thumbnail to preview the concept. Filtered by whichever brand you want to see move.</p>
   </section>
 
   <!-- SECTION 01: BRAND WORLDS -->
@@ -288,7 +354,7 @@
     <div class="section-head">
       <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">02 / The Creator Archetype Gallery</span></div>
       <h2>Not a list. <span class="accent">A range of what's possible.</span></h2>
-      <p class="sub">Six ways a creator relationship can work — each concept shown as a thumbnail, not a paragraph. Real names referenced are illustrative style fits, not confirmed collaborations, endorsements, or commitments.</p>
+      <p class="sub">Six ways a creator relationship can work — tap any thumbnail for the full concept. Real names referenced are illustrative style fits, not confirmed collaborations, endorsements, or commitments.</p>
     </div>
 
     <div id="archetype-groups"></div>
@@ -304,7 +370,7 @@
     <div class="section-head">
       <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">03 / Content Genres</span></div>
       <h2>What creators <span class="accent">actually produce.</span></h2>
-      <p class="sub">Eleven formats. Every idea in the system lives inside one of these.</p>
+      <p class="sub">Eleven formats. Tap any thumbnail to see how it plays out.</p>
     </div>
     <div class="genre-grid" id="genre-list"></div>
   </section>
@@ -315,6 +381,35 @@
   <p class="disclaimer">This gallery is an illustrative planning tool. Real creator and celebrity names shown are references to demonstrate a proven creative style and plausible brand fit — they are not commitments, endorsements, confirmed collaborations, or offers of any kind. Owned-IP and avatar names are working titles for internal use.</p>
   <p class="mark">CC Creator Gallery · A Sister System to the Operating Model · 2027</p>
 </footer>
+
+<!-- preview modal: tapping a thumbnail's play button opens this -->
+<div class="modal-scrim" id="modal-scrim" role="presentation">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" aria-label="Close preview">✕</button>
+    <div class="modal-stage" id="modal-stage">
+      <div class="modal-ring r1"></div>
+      <div class="modal-ring r2"></div>
+      <div class="modal-ring r3"></div>
+      <svg class="glyph" id="modal-glyph" viewBox="0 0 64 64"></svg>
+      <div class="modal-badges">
+        <span class="badge concept" style="position:static;">Concept</span>
+      </div>
+      <div class="modal-scrubber">
+        <div class="track"><div class="fill"></div></div>
+        <div class="time"><span>Illustrative preview</span><span>Not real footage</span></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <span class="eyebrow" id="modal-eyebrow"></span>
+      <h3 id="modal-title"></h3>
+      <div class="styleref" id="modal-styleref" style="display:none;"></div>
+      <p class="desc" id="modal-desc"></p>
+      <div class="tags" id="modal-tags"></div>
+      <div class="examples" id="modal-examples" style="display:none;"></div>
+      <p class="modal-note">Illustrative concept only — not confirmed, produced, or endorsed. Real creator names referenced are style fits, not commitments.</p>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -418,16 +513,12 @@
       html += '<div class="archetype-group" data-group="'+gi+'">';
       html += '<div class="archetype-head"><span class="archetype-num">'+group.num+'</span><h3>'+group.name+'</h3></div>';
       html += '<div class="card-grid">';
-      group.cards.forEach(function(c){
-        html += '<div class="card" data-brands="'+c.brands.join(',')+'">';
+      group.cards.forEach(function(c, ci){
+        html += '<button type="button" class="card" data-brands="'+c.brands.join(',')+'" data-kind="archetype" data-group="'+gi+'" data-index="'+ci+'">';
         html += thumbHTML(group.glyph, c.format, counter++);
-        html += '<div class="meta">';
-        html += '<h4>'+c.name+'</h4>';
-        if(c.ref){ html += '<div class="styleref">Style ref: '+c.ref+'</div>'; }
-        html += '<p class="desc">'+c.desc+'</p>';
-        html += '<div class="tags">';
-        c.brands.forEach(function(b){ html += '<span class="tag">'+BRANDS[b]+'</span>'; });
-        html += '</div></div></div>';
+        html += '<div class="cap"><h4>'+c.name+'</h4><div class="row2">';
+        c.brands.forEach(function(b){ html += '<span class="brand-chip">'+BRANDS[b]+'</span>'; });
+        html += '</div></div></button>';
       });
       html += '</div></div>';
     });
@@ -438,14 +529,9 @@
     var root = document.getElementById('genre-list');
     var html = '';
     GENRES.forEach(function(g, i){
-      html += '<div class="genre-card">';
+      html += '<button type="button" class="card" data-kind="genre" data-index="'+i+'">';
       html += thumbHTML(g.glyph, null, i + 40);
-      html += '<div class="meta">';
-      html += '<h4>'+g.name+'</h4>';
-      html += '<p class="g-def">'+g.def+'</p>';
-      html += '<div class="g-examples">';
-      g.ex.forEach(function(e){ html += '<span><b>'+e+'</b></span>'; });
-      html += '</div></div></div>';
+      html += '<div class="cap"><h4>'+g.name+'</h4><div class="row2"><span class="brand-chip">'+g.ex.length+' examples</span></div></div></button>';
     });
     root.innerHTML = html;
   }
@@ -495,10 +581,79 @@
     sections.forEach(function(s){ observer.observe(s); });
   }
 
+  /* ---- preview modal ---- */
+  var scrim = document.getElementById('modal-scrim');
+  var stage = document.getElementById('modal-stage');
+  var lastFocused = null;
+
+  function openModal(kind, gi, idx){
+    var glyphKey, eyebrow, title, ref, desc, format, brands, examples;
+    if(kind === 'archetype'){
+      var group = ARCHETYPES[gi];
+      var c = group.cards[idx];
+      glyphKey = group.glyph; eyebrow = group.name; title = c.name; ref = c.ref;
+      desc = c.desc; format = c.format; brands = c.brands; examples = null;
+    } else {
+      var g = GENRES[idx];
+      glyphKey = g.glyph; eyebrow = 'Content Genre'; title = g.name; ref = null;
+      desc = g.def; format = null; brands = null; examples = g.ex;
+    }
+
+    stage.style.cssText = thumbStyle(gi * 7 + idx);
+    document.getElementById('modal-glyph').innerHTML = GLYPHS[glyphKey];
+    document.getElementById('modal-eyebrow').textContent = eyebrow;
+    document.getElementById('modal-title').textContent = title;
+
+    var refEl = document.getElementById('modal-styleref');
+    if(ref){ refEl.style.display = ''; refEl.textContent = 'Style ref: ' + ref; }
+    else{ refEl.style.display = 'none'; }
+
+    document.getElementById('modal-desc').textContent = desc;
+
+    var tagsEl = document.getElementById('modal-tags');
+    tagsEl.innerHTML = '';
+    if(brands){ brands.forEach(function(b){ tagsEl.innerHTML += '<span class="tag">'+BRANDS[b]+'</span>'; }); }
+    if(format){ tagsEl.innerHTML += '<span class="tag format">'+format+'</span>'; }
+
+    var exEl = document.getElementById('modal-examples');
+    if(examples){
+      exEl.style.display = '';
+      exEl.innerHTML = examples.map(function(e){ return '<span><b>'+e+'</b></span>'; }).join('');
+    } else {
+      exEl.style.display = 'none';
+    }
+
+    lastFocused = document.activeElement;
+    scrim.classList.add('is-open');
+    document.getElementById('modal-close').focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    scrim.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if(lastFocused){ lastFocused.focus(); }
+  }
+
+  function setupModal(){
+    document.body.addEventListener('click', function(e){
+      var card = e.target.closest('.card');
+      if(!card) return;
+      var kind = card.getAttribute('data-kind');
+      var gi = parseInt(card.getAttribute('data-group'), 10);
+      var idx = parseInt(card.getAttribute('data-index'), 10);
+      openModal(kind, isNaN(gi) ? 0 : gi, idx);
+    });
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    scrim.addEventListener('click', function(e){ if(e.target === scrim) closeModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && scrim.classList.contains('is-open')) closeModal(); });
+  }
+
   renderArchetypes();
   renderGenres();
   setupBrandList();
   setupNavHighlight();
+  setupModal();
 })();
 </script>
 </body>
