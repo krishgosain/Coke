@@ -3,505 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Creator Machine — WLDD × Coca-Cola</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>CC Creator Gallery — 2027</title>
+<meta name="description" content="India's beverage creator network — the content universe. A sister system to the operating model.">
 <style>
   :root{
-    --black: #0A0908;
-    --black-2: #120E0D;
-    --panel: #16110F;
-    --panel-2: #1C1512;
-    --line: rgba(244,231,219,0.10);
-    --line-strong: rgba(244,231,219,0.18);
-    --cream: #F3E9DD;
-    --cream-dim: rgba(243,233,221,0.62);
-    --cream-dimmer: rgba(243,233,221,0.38);
-    --red: #E4002B;
-    --red-bright: #FF2A44;
-    --red-deep: #8C0019;
-    --amber: #FF7A45;
-    --font-display: 'Fraunces', Georgia, serif;
-    --font-body: 'Manrope', -apple-system, sans-serif;
+    --black: #0a0a0a;
+    --black-2: #080808;
+    --panel: #101010;
+    --panel-2: #141414;
+    --line: rgba(247,243,238,0.08);
+    --line-strong: rgba(247,243,238,0.16);
+    --cream: #f7f3ee;
+    --cream-dim: rgba(247,243,238,0.60);
+    --grey: #aaa5a0;
+    --grey-dim: #77726c;
+    --red: #f40009;
+    --red-deep: #7a0006;
+    --font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
-
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth; background:var(--black);}
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; background:var(--black); }
   body{
     background:var(--black);
     color:var(--cream);
-    font-family:var(--font-body);
+    font-family:var(--font);
     line-height:1.5;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
   }
   ::selection{ background:var(--red); color:var(--cream); }
-
   a{ color:inherit; }
-  img{max-width:100%;}
-
-  h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; letter-spacing:-0.01em; }
-
+  img,svg{ max-width:100%; display:block; }
   .wrap{ max-width:1180px; margin:0 auto; padding:0 28px; }
   @media (max-width:640px){ .wrap{ padding:0 20px; } }
 
-  /* ---------- Atmosphere canvas ---------- */
-  #atmosphere{
-    position:fixed; inset:0; width:100vw; height:100vh;
-    z-index:0; pointer-events:none;
+  /* grid + orbit background */
+  .grid-overlay{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(247,243,238,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247,243,238,0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 85%);
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 85%);
   }
-  .grain{
-    position:fixed; inset:0; z-index:1; pointer-events:none;
-    opacity:0.035; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  .glow-red{
-    position:fixed; z-index:0; pointer-events:none;
-    width:70vmax; height:70vmax; left:50%; top:-10vmax; transform:translateX(-50%);
-    background:radial-gradient(circle, rgba(228,0,43,0.16) 0%, rgba(228,0,43,0.05) 35%, transparent 65%);
-    filter:blur(10px);
-  }
-
+  .orbit{ position:absolute; pointer-events:none; z-index:0; opacity:0.9; }
+  .orbit-hero{ top:-4%; right:-8%; width:min(62vw, 780px); }
+  .orbit-section{ opacity:0.5; }
   main, header, footer{ position:relative; z-index:2; }
 
-  /* ---------- Nav ---------- */
+  /* nav */
   header{
     position:fixed; top:0; left:0; right:0; z-index:50;
-    background:rgba(10,9,8,0.72);
+    background:rgba(10,10,10,0.75);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-bottom:1px solid var(--line);
   }
   .nav-inner{
     max-width:1180px; margin:0 auto; padding:0 28px;
-    height:64px; display:flex; align-items:center; justify-content:space-between;
-    gap:16px;
+    height:64px; display:flex; align-items:center; justify-content:space-between; gap:16px;
   }
   .brand-mark{
-    font-family:var(--font-display); font-weight:700; font-size:1.15rem;
-    display:flex; align-items:center; gap:9px; white-space:nowrap;
+    font-weight:900; font-size:0.92rem; letter-spacing:0.02em;
+    display:flex; align-items:center; gap:8px; white-space:nowrap;
   }
-  .brand-mark .cap{
-    width:11px; height:11px; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, var(--red-bright), var(--red-deep) 75%);
-    box-shadow:0 0 10px rgba(228,0,43,0.6);
-    flex-shrink:0;
-  }
-  nav ul{
-    list-style:none; display:flex; gap:2px; align-items:center;
-  }
+  .brand-mark .dash{ width:14px; height:2px; background:var(--red); flex-shrink:0; }
+  nav ul{ list-style:none; display:flex; gap:2px; align-items:center; }
   nav a{
-    text-decoration:none; color:var(--cream-dim); font-size:0.86rem; font-weight:600;
-    padding:9px 13px; border-radius:100px; display:block;
-    transition:color .25s ease, background .25s ease;
-    white-space:nowrap;
+    text-decoration:none; color:var(--grey); font-size:0.82rem; font-weight:700;
+    padding:9px 13px; border-radius:100px; display:block; white-space:nowrap;
+    transition:color .2s ease, background .2s ease;
   }
-  nav a:hover{ color:var(--cream); background:rgba(244,231,219,0.06); }
-  nav a.active{ color:var(--cream); background:rgba(228,0,43,0.16); }
-  #navToggle{ display:none; }
-  .nav-scroll{ overflow-x:auto; scrollbar-width:none; }
-  .nav-scroll::-webkit-scrollbar{ display:none; }
-
-  @media (max-width:900px){
-    nav ul{ gap:0; }
-    nav a{ font-size:0.78rem; padding:8px 10px; }
-  }
-  @media (max-width:640px){
-    .nav-inner{ padding:0 16px; }
-    nav{ width:100%; overflow-x:auto; }
-    .nav-inner{ flex-wrap:nowrap; }
+  nav a:hover{ color:var(--cream); background:rgba(247,243,238,0.06); }
+  nav a.active{ color:var(--cream); background:rgba(244,0,9,0.14); }
+  .nav-toggle{ display:none; }
+  @media (max-width:820px){
+    nav ul{ display:none; }
   }
 
-  /* ---------- Buttons / pills ---------- */
-  .pill-btn{
-    display:inline-flex; align-items:center; gap:8px;
-    background:linear-gradient(180deg, #1a1412, #120d0b);
-    border:1px solid var(--line-strong);
-    color:var(--cream);
-    padding:13px 26px;
-    border-radius:100px;
-    font-family:var(--font-body); font-weight:700; font-size:0.92rem;
-    cursor:pointer;
-    position:relative;
-    transition:border-color .25s ease, transform .2s ease, box-shadow .25s ease;
-  }
-  .pill-btn:hover{ border-color:rgba(228,0,43,0.55); box-shadow:0 0 0 1px rgba(228,0,43,0.15), 0 8px 24px rgba(228,0,43,0.15); transform:translateY(-1px); }
-  .pill-btn.primary{
-    background:linear-gradient(180deg, var(--red-bright), var(--red-deep));
-    border-color:rgba(255,255,255,0.15);
-    color:#fff;
-  }
-  .pill-btn.primary:hover{ box-shadow:0 0 0 1px rgba(228,0,43,0.3), 0 10px 30px rgba(228,0,43,0.35); }
-
-  .tag{
-    display:inline-flex; align-items:center;
-    font-size:0.72rem; font-weight:700; letter-spacing:0.02em;
-    padding:5px 11px; border-radius:100px;
-    border:1px solid var(--line-strong);
-    color:var(--cream-dim);
-    background:rgba(244,231,219,0.04);
-    white-space:nowrap;
-  }
-  .tag.on{ background:rgba(228,0,43,0.18); border-color:rgba(228,0,43,0.5); color:#ffdada; }
-
-  /* ---------- Fizz divider ---------- */
-  .fizz-divider{
-    position:relative; height:64px; width:100%;
-    display:flex; align-items:center; justify-content:center;
-    overflow:hidden;
-  }
-  .fizz-divider svg{ width:100%; max-width:1180px; height:100%; opacity:0.55; }
-
-  /* ---------- Section base ---------- */
-  section{ padding:110px 0; position:relative; }
-  section.tight{ padding:80px 0; }
+  /* eyebrow */
+  .eyebrow-wrap{ display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+  .eyebrow-dash{ width:26px; height:3px; background:var(--red); }
   .eyebrow{
-    color:var(--red-bright); font-weight:700; font-size:0.82rem;
-    display:inline-block; margin-bottom:14px;
-  }
-  .section-head{ max-width:680px; margin-bottom:56px; }
-  .section-head h2{ font-size:clamp(2rem, 4vw, 2.9rem); margin-bottom:16px; }
-  .section-head p{ color:var(--cream-dim); font-size:1.08rem; }
-
-  /* ---------- Hero ---------- */
-  #hero{
-    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
-    padding-top:64px;
-    position:relative;
-  }
-  .hero-inner{ max-width:1180px; margin:0 auto; padding:0 28px; position:relative; z-index:3; }
-  .hero-eyebrow{
-    display:inline-flex; align-items:center; gap:8px;
-    color:var(--cream-dim); font-size:0.86rem; font-weight:600;
-    border:1px solid var(--line-strong); border-radius:100px;
-    padding:8px 16px; margin-bottom:32px;
-    background:rgba(244,231,219,0.03);
-  }
-  .hero-eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:var(--red-bright); box-shadow:0 0 8px var(--red-bright); }
-  h1.hero-title{
-    font-size:clamp(2.6rem, 6.4vw, 5.6rem);
-    line-height:1.02;
-    font-weight:700;
-    max-width:16ch;
-    margin-bottom:28px;
-  }
-  h1.hero-title .accent{ color:var(--red-bright); font-style:italic; font-weight:600; }
-  .hero-sub{
-    font-size:clamp(1.02rem,1.6vw,1.28rem);
-    color:var(--cream-dim);
-    max-width:640px;
-    margin-bottom:48px;
-  }
-  .hero-stats{
-    display:flex; flex-wrap:wrap; gap:0;
-    border-top:1px solid var(--line);
-    padding-top:32px;
-  }
-  .hero-stat{
-    flex:1; min-width:170px;
-    padding:0 28px 0 0;
-    border-right:1px solid var(--line);
-    margin-right:28px;
-  }
-  .hero-stat:last-child{ border-right:none; }
-  .hero-stat .num{ font-family:var(--font-display); font-size:2.2rem; font-weight:700; color:var(--cream); display:block; }
-  .hero-stat .num .red{ color:var(--red-bright); }
-  .hero-stat .label{ color:var(--cream-dimmer); font-size:0.85rem; margin-top:4px; display:block; }
-  @media (max-width:760px){
-    .hero-stats{ flex-direction:column; gap:20px; }
-    .hero-stat{ border-right:none; border-bottom:1px solid var(--line); padding-bottom:20px; margin-right:0; }
+    color:var(--red); font-weight:800; font-size:0.78rem;
+    letter-spacing:0.13em; text-transform:uppercase;
   }
 
-  .scroll-cue{
-    position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
-    display:flex; flex-direction:column; align-items:center; gap:8px;
-    color:var(--cream-dimmer); font-size:0.72rem; letter-spacing:0.08em; font-weight:600;
-    z-index:3;
-  }
-  .scroll-cue .glass-line{
-    width:1px; height:36px; background:linear-gradient(to bottom, var(--cream-dimmer), transparent);
-    position:relative; overflow:hidden;
-  }
-  .scroll-cue .glass-line::after{
-    content:''; position:absolute; left:-1px; width:3px; height:8px; background:var(--red-bright);
-    border-radius:2px; animation:dripDown 2.2s ease-in-out infinite;
-  }
-  @keyframes dripDown{ 0%{ top:-10px; opacity:0;} 20%{opacity:1;} 100%{ top:36px; opacity:0;} }
+  h1,h2,h3{ font-family:var(--font); font-weight:900; letter-spacing:-0.03em; line-height:1.02; }
+  .accent{ color:var(--red); }
 
-  /* ---------- Model section ---------- */
-  .layers{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:64px; }
-  @media (max-width:800px){ .layers{ grid-template-columns:1fr; } }
-  .layer-card{
-    background:linear-gradient(155deg, var(--panel), var(--black-2));
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:34px;
-    position:relative;
-    overflow:hidden;
+  /* hero */
+  .hero{ padding:150px 0 90px; position:relative; }
+  .hero h1{ font-size:clamp(2.4rem, 6.2vw, 4.6rem); max-width:820px; }
+  .hero .sub{
+    margin-top:26px; max-width:600px; color:var(--grey); font-size:1.02rem; line-height:1.6;
   }
-  .layer-card::before{
-    content:''; position:absolute; top:-40%; right:-30%;
-    width:70%; height:70%;
-    background:radial-gradient(circle, rgba(228,0,43,0.10), transparent 70%);
-    pointer-events:none;
+  .stat-row{
+    margin-top:64px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px;
+    border-top:1px solid var(--line); padding-top:32px;
   }
-  .layer-card h3{ font-size:1.5rem; margin-bottom:6px; }
-  .layer-card .layer-tag{ color:var(--red-bright); font-weight:700; font-size:0.78rem; margin-bottom:16px; display:block; }
-  .layer-card ul{ list-style:none; display:flex; flex-direction:column; gap:11px; }
-  .layer-card li{
-    color:var(--cream-dim); font-size:0.95rem; padding-left:18px; position:relative;
+  .stat b{ display:block; font-size:clamp(2rem, 4vw, 2.8rem); font-weight:900; letter-spacing:-0.03em; }
+  .stat span{
+    display:block; margin-top:6px; color:var(--grey-dim); font-size:0.72rem;
+    font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
   }
-  .layer-card li::before{
-    content:''; position:absolute; left:0; top:8px; width:6px; height:6px; border-radius:50%;
-    background:var(--red-bright); opacity:0.7;
-  }
+  @media (max-width:820px){ .stat-row{ grid-template-columns:repeat(2,1fr); row-gap:32px; } }
 
-  .engines-grid{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
-    gap:16px;
+  section{ padding:96px 0; position:relative; }
+  section + section{ border-top:1px solid var(--line); }
+  .section-head{ max-width:760px; margin-bottom:52px; }
+  .section-head h2{ font-size:clamp(1.9rem, 4.2vw, 3rem); }
+  .section-head .sub{ margin-top:18px; color:var(--grey); font-size:1rem; line-height:1.65; max-width:640px; }
+
+  /* brand list (row selector) */
+  .brand-list{ border-top:1px solid var(--line-strong); margin-top:8px; }
+  .brand-row{
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; text-align:left; background:transparent; border:none;
+    border-bottom:1px solid var(--line); color:var(--grey);
+    padding:20px 22px; cursor:pointer; font-family:var(--font);
+    transition:background .18s ease, color .18s ease;
   }
-  .engine-card{
-    background:var(--panel); border:1px solid var(--line); border-radius:16px;
-    padding:24px; transition:border-color .3s ease, transform .3s ease, background .3s ease;
-    cursor:default;
+  .brand-row .name{ font-weight:800; font-size:1.02rem; letter-spacing:-0.01em; }
+  .brand-row .val{ font-weight:700; font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--grey-dim); }
+  .brand-row:hover{ color:var(--cream); background:rgba(247,243,238,0.03); }
+  .brand-row.is-active{
+    background:var(--red); color:var(--cream); border-bottom-color:var(--red);
   }
-  .engine-card:hover{
-    border-color:rgba(228,0,43,0.4); transform:translateY(-3px);
-    background:var(--panel-2);
+  .brand-row.is-active .name{ color:var(--cream); }
+  .brand-row.is-active .val{ color:var(--cream); }
+
+  /* archetype gallery */
+  .archetype-group{ margin-top:56px; }
+  .archetype-group:first-of-type{ margin-top:0; }
+  .archetype-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:20px; }
+  .archetype-num{ color:var(--red); font-weight:800; font-size:0.8rem; letter-spacing:0.1em; }
+  .archetype-head h3{ font-size:1.35rem; font-weight:800; letter-spacing:-0.015em; }
+  .card-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
+  @media (max-width:980px){ .card-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:560px){ .card-grid{ grid-template-columns:1fr; } }
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:22px; display:flex; flex-direction:column; gap:12px;
+    transition:border-color .2s ease, transform .2s ease;
   }
-  .engine-card h4{ font-size:1.08rem; margin-bottom:8px; color:var(--cream); font-weight:600; font-family:var(--font-body); }
-  .engine-card p{ color:var(--cream-dim); font-size:0.88rem; }
-  .engine-icon{
-    width:34px; height:34px; border-radius:9px; margin-bottom:14px;
-    background:linear-gradient(160deg, rgba(228,0,43,0.35), rgba(228,0,43,0.05));
-    border:1px solid rgba(228,0,43,0.35);
+  .card:hover{ border-color:var(--line-strong); transform:translateY(-2px); }
+  .card.is-hidden{ display:none; }
+  .monogram{
+    width:42px; height:42px; border-radius:10px;
+    background:linear-gradient(135deg, var(--red) 0%, var(--red-deep) 65%, #1a0000 100%);
     display:flex; align-items:center; justify-content:center;
-    font-size:1rem;
+    font-weight:900; font-size:0.95rem; color:var(--cream); letter-spacing:-0.01em;
+  }
+  .card h4{ font-size:1.02rem; font-weight:800; letter-spacing:-0.01em; }
+  .card .styleref{ color:var(--red); font-size:0.76rem; font-weight:700; letter-spacing:0.02em; }
+  .card p.desc{ color:var(--grey); font-size:0.88rem; line-height:1.5; flex-grow:1; }
+  .card .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+  .tag{
+    font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--grey-dim); border:1px solid var(--line-strong); border-radius:100px; padding:4px 10px;
+  }
+  .tag.format{ color:var(--red); border-color:rgba(244,0,9,0.35); }
+  .group-note{ color:var(--grey-dim); font-size:0.82rem; margin-top:4px; font-style:normal; }
+  .empty-note{ color:var(--grey-dim); font-size:0.9rem; padding:24px 0; display:none; }
+  .empty-note.show{ display:block; }
+
+  .style-disclaimer{
+    margin-top:36px; padding:16px 18px; border:1px solid var(--line-strong); border-radius:10px;
+    color:var(--grey-dim); font-size:0.8rem; line-height:1.6; max-width:760px;
   }
 
-  /* ---------- Buckets accordion ---------- */
-  .bucket-list{ display:flex; flex-direction:column; gap:10px; }
-  .bucket{
-    background:var(--panel); border:1px solid var(--line); border-radius:16px;
-    overflow:hidden; transition:border-color .3s ease;
+  /* genres */
+  .genre-row{
+    display:grid; grid-template-columns:220px 1fr; gap:28px;
+    padding:26px 0; border-bottom:1px solid var(--line);
   }
-  .bucket.open{ border-color:rgba(228,0,43,0.4); }
-  .bucket-head{
-    display:flex; align-items:center; justify-content:space-between; gap:16px;
-    padding:22px 26px; cursor:pointer; user-select:none;
-  }
-  .bucket-head:hover .bucket-name{ color:var(--red-bright); }
-  .bucket-num{
-    font-family:var(--font-display); font-size:0.85rem; color:var(--cream-dimmer);
-    width:26px; flex-shrink:0;
-  }
-  .bucket-name{ font-family:var(--font-display); font-size:1.22rem; font-weight:600; transition:color .2s ease; flex:1; }
-  .bucket-plus{
-    width:30px; height:30px; border-radius:50%; border:1px solid var(--line-strong);
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-    position:relative; transition:transform .35s ease, background .3s ease;
-  }
-  .bucket-plus::before, .bucket-plus::after{
-    content:''; position:absolute; background:var(--cream); border-radius:1px;
-  }
-  .bucket-plus::before{ width:11px; height:2px; }
-  .bucket-plus::after{ width:2px; height:11px; transition:opacity .3s ease; }
-  .bucket.open .bucket-plus{ background:var(--red); transform:rotate(180deg); border-color:var(--red); }
-  .bucket.open .bucket-plus::after{ opacity:0; }
-  .bucket-body{
-    max-height:0; overflow:hidden; transition:max-height .45s ease;
-  }
-  .bucket-body-inner{
-    padding:0 26px 30px 62px;
-    display:grid; grid-template-columns:1fr 1fr; gap:28px;
-  }
-  @media (max-width:700px){ .bucket-body-inner{ grid-template-columns:1fr; padding-left:26px; } }
-  .bucket-def{ color:var(--cream-dim); font-size:0.95rem; margin-bottom:18px; }
-  .bucket-col h5{
-    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em;
-    color:var(--cream-dimmer); font-weight:700; margin-bottom:12px; font-family:var(--font-body);
-  }
-  .bucket-col ul{ list-style:none; display:flex; flex-direction:column; gap:10px; }
-  .bucket-col li{
-    font-size:0.92rem; color:var(--cream); padding-left:14px; position:relative; line-height:1.45;
-  }
-  .bucket-col li::before{ content:'—'; position:absolute; left:0; color:var(--cream-dimmer); }
-  .bucket-col.new li::before{ content:'+'; color:var(--red-bright); font-weight:800; }
-  .bucket-col.new li{ color:var(--cream); }
-
-  /* ---------- Top 20 ---------- */
-  .top20-controls{
-    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:32px;
-    align-items:center;
-  }
-  .filter-group{ display:flex; flex-wrap:wrap; gap:8px; }
-  .filter-label{ font-size:0.76rem; color:var(--cream-dimmer); font-weight:700; margin-right:6px; align-self:center; }
-  .filter-chip{
-    background:transparent; border:1px solid var(--line-strong); color:var(--cream-dim);
-    padding:7px 14px; border-radius:100px; font-size:0.78rem; font-weight:600;
-    cursor:pointer; transition:all .2s ease; font-family:var(--font-body);
-  }
-  .filter-chip:hover{ border-color:rgba(228,0,43,0.5); color:var(--cream); }
-  .filter-chip.active{ background:var(--red); border-color:var(--red); color:#fff; }
-  .sort-select{
-    background:var(--panel); border:1px solid var(--line-strong); color:var(--cream);
-    padding:8px 14px; border-radius:100px; font-size:0.78rem; font-weight:600;
-    font-family:var(--font-body); cursor:pointer;
+  .genre-row:first-child{ border-top:1px solid var(--line-strong); }
+  .genre-row .g-num{ color:var(--red); font-weight:800; font-size:0.78rem; letter-spacing:0.08em; }
+  .genre-row h4{ font-size:1.15rem; font-weight:800; margin-top:6px; letter-spacing:-0.01em; }
+  .genre-row .g-def{ color:var(--grey); font-size:0.88rem; margin-top:6px; line-height:1.5; }
+  .genre-examples{ display:grid; grid-template-columns:1fr 1fr; gap:16px; align-content:start; }
+  .genre-examples .ex{ font-size:0.88rem; color:var(--grey); line-height:1.55; }
+  .genre-examples .ex b{ color:var(--cream); font-weight:800; }
+  @media (max-width:760px){
+    .genre-row{ grid-template-columns:1fr; gap:12px; }
+    .genre-examples{ grid-template-columns:1fr; }
   }
 
-  .top20-list{ display:flex; flex-direction:column; gap:12px; }
-  .top20-item{
-    display:grid; grid-template-columns:56px 1fr auto; gap:20px; align-items:center;
-    background:var(--panel); border:1px solid var(--line); border-radius:16px;
-    padding:20px 24px; transition:border-color .3s ease, transform .3s ease;
-  }
-  .top20-item:hover{ border-color:rgba(228,0,43,0.4); transform:translateX(4px); }
-  .top20-item.hidden{ display:none; }
-  .top20-rank{
-    font-family:var(--font-display); font-size:1.9rem; font-weight:700;
-    color:var(--red-bright); opacity:0.85; text-align:center;
-    -webkit-text-stroke:0px;
-  }
-  .top20-item:nth-child(-n+3) .top20-rank{
-    background:linear-gradient(180deg, var(--red-bright), var(--amber));
-    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-    opacity:1;
-  }
-  .top20-main h4{ font-family:var(--font-body); font-weight:700; font-size:1.08rem; margin-bottom:4px; }
-  .top20-main p{ color:var(--cream-dim); font-size:0.88rem; }
-  .top20-tags{ display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
-  @media (max-width:640px){
-    .top20-item{ grid-template-columns:40px 1fr; }
-    .top20-tags{ grid-column:1 / -1; flex-direction:row; align-items:flex-start; padding-left:0; margin-top:4px; }
+  /* numbers */
+  .numbers-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  @media (max-width:820px){ .numbers-grid{ grid-template-columns:repeat(2,1fr); } }
+  .num-block{ border-top:1px solid var(--line-strong); padding-top:22px; }
+  .num-block b{ display:block; font-size:clamp(2.2rem,5vw,3.4rem); font-weight:900; letter-spacing:-0.03em; }
+  .num-block span{
+    display:block; margin-top:8px; color:var(--grey-dim); font-size:0.72rem;
+    font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
   }
 
-  /* ---------- Brand view ---------- */
-  .brand-tabs{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
-  .brand-tab{
-    background:var(--panel); border:1px solid var(--line-strong); color:var(--cream);
-    padding:11px 20px; border-radius:100px; font-weight:700; font-size:0.88rem;
-    cursor:pointer; transition:all .25s ease; font-family:var(--font-body);
+  footer{ padding:56px 0 60px; border-top:1px solid var(--line); }
+  footer .disclaimer{ color:var(--grey-dim); font-size:0.82rem; line-height:1.7; max-width:760px; }
+  footer .mark{
+    margin-top:28px; color:var(--grey-dim); font-size:0.72rem; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase;
   }
-  .brand-tab:hover{ border-color:rgba(228,0,43,0.5); }
-  .brand-tab.active{ background:var(--red); border-color:var(--red); color:#fff; box-shadow:0 6px 20px rgba(228,0,43,0.3); }
-
-  .brand-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
-  .brand-card{
-    background:linear-gradient(160deg, var(--panel), var(--black-2));
-    border:1px solid var(--line); border-radius:18px; padding:28px;
-    transition:opacity .3s ease, transform .3s ease;
-  }
-  .brand-card.dim{ opacity:0.28; filter:saturate(0.5); }
-  .brand-card h4{ font-family:var(--font-display); font-size:1.4rem; margin-bottom:16px; }
-  .brand-card .field{ margin-bottom:14px; }
-  .brand-card .field-label{ font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--red-bright); font-weight:700; margin-bottom:4px; }
-  .brand-card .field-val{ color:var(--cream-dim); font-size:0.92rem; }
-
-  .reset-banner{
-    display:none; align-items:center; justify-content:space-between; gap:16px;
-    background:rgba(228,0,43,0.12); border:1px solid rgba(228,0,43,0.4);
-    border-radius:14px; padding:16px 22px; margin-bottom:24px;
-    font-size:0.92rem; font-weight:600;
-  }
-  .reset-banner.show{ display:flex; }
-  .reset-banner button{
-    background:none; border:1px solid var(--line-strong); color:var(--cream);
-    padding:7px 16px; border-radius:100px; font-size:0.8rem; font-weight:700; cursor:pointer;
-    font-family:var(--font-body);
-  }
-  .reset-banner button:hover{ border-color:var(--red-bright); }
-
-  /* ---------- Numbers ---------- */
-  .numbers-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; }
-  @media (max-width:800px){ .numbers-grid{ grid-template-columns:1fr; gap:40px; } }
-  .numbers-col h3{ font-size:1.3rem; margin-bottom:28px; color:var(--cream); }
-  .bar-row{ margin-bottom:20px; }
-  .bar-row .bar-top{ display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.9rem; }
-  .bar-row .bar-pct{ font-weight:700; color:var(--red-bright); font-family:var(--font-display); }
-  .bar-track{ height:10px; background:rgba(244,231,219,0.06); border-radius:100px; overflow:hidden; }
-  .bar-fill{
-    height:100%; width:0%; border-radius:100px;
-    background:linear-gradient(90deg, var(--red-deep), var(--red-bright));
-    transition:width 1.1s cubic-bezier(.16,.84,.44,1);
-    box-shadow:0 0 12px rgba(228,0,43,0.5);
-  }
-
-  /* ---------- Footer / glossary ---------- */
-  footer{ border-top:1px solid var(--line); padding:80px 0 40px; }
-  .glossary{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-bottom:60px; }
-  .glossary-item{
-    border:1px solid var(--line); border-radius:14px; padding:20px;
-    background:var(--panel);
-  }
-  .glossary-item.seasonal{ border-color:rgba(228,0,43,0.3); }
-  .glossary-item h5{ font-family:var(--font-display); font-size:1.08rem; margin-bottom:6px; }
-  .glossary-item p{ color:var(--cream-dim); font-size:0.85rem; }
-  .glossary-item .seasonal-flag{ color:var(--amber); font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block; margin-top:8px; }
-  .footer-bottom{
-    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
-    padding-top:32px; border-top:1px solid var(--line);
-    color:var(--cream-dimmer); font-size:0.85rem;
-  }
-
-  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
-  .reveal.in{ opacity:1; transform:translateY(0); }
-
-  /* ---------- Cursor glow ---------- */
-  #cursorGlow{
-    position:fixed; top:0; left:0; width:420px; height:420px; border-radius:50%;
-    background:radial-gradient(circle, rgba(228,0,43,0.14) 0%, rgba(228,0,43,0.05) 40%, transparent 70%);
-    transform:translate(-50%,-50%);
-    pointer-events:none; z-index:1; will-change:transform;
-    transition:opacity .3s ease;
-  }
-  @media (max-width:900px){ #cursorGlow{ display:none; } }
-
-  /* ---------- Tilt cards ---------- */
-  .tilt{ transform-style:preserve-3d; will-change:transform; }
-
-  /* ---------- Hero visual (SVG glass) ---------- */
-  .hero-visual{
-    position:absolute; right:-4%; top:50%; transform:translateY(-48%);
-    width:min(46vw, 620px); height:min(46vw, 620px);
-    z-index:1; opacity:0.9; pointer-events:none;
-  }
-  .hero-visual svg{ width:100%; height:100%; }
-  @media (max-width:980px){ .hero-visual{ opacity:0.22; right:-10%; width:80vw; height:80vw; } }
-
-  /* ---------- Magnetic button wrap ---------- */
-  .magnetic{ display:inline-block; }
-
-  /* ---------- Brand cap emblem ---------- */
-  .brand-emblem{ width:44px; height:44px; margin-bottom:14px; }
-
-  /* ---------- Engine icon svg ---------- */
-  .engine-icon svg{ width:19px; height:19px; }
-
-  /* ---------- Bucket icon ---------- */
-  .bucket-icon{ width:20px; height:20px; flex-shrink:0; opacity:0.75; }
-
-  /* ---------- Top20 glass chip ---------- */
-  .top20-glass{ width:34px; height:34px; flex-shrink:0; opacity:0.85; }
 </style>
 </head>
 <body>
 
-<canvas id="atmosphere"></canvas>
-<div class="glow-red"></div>
-<div class="grain"></div>
+<div class="grid-overlay"></div>
 
 <header>
   <div class="nav-inner">
-    <div class="brand-mark"><span class="cap"></span>The Creator Machine</div>
-    <nav class="nav-scroll">
-      <ul id="navList">
-        <li><a href="#hero" data-sec="hero">Home</a></li>
-        <li><a href="#model" data-sec="model">Model</a></li>
-        <li><a href="#buckets" data-sec="buckets">Formats</a></li>
-        <li><a href="#top20" data-sec="top20">Top 20</a></li>
-        <li><a href="#brands" data-sec="brands">By Brand</a></li>
-        <li><a href="#numbers" data-sec="numbers">Numbers</a></li>
+    <div class="brand-mark"><span class="dash"></span>CC CREATOR GALLERY</div>
+    <nav>
+      <ul id="nav-links">
+        <li><a href="#brand-worlds" data-nav="brand-worlds">Brand Worlds</a></li>
+        <li><a href="#creator-gallery" data-nav="creator-gallery">Creator Gallery</a></li>
+        <li><a href="#content-genres" data-nav="content-genres">Content Genres</a></li>
+        <li><a href="#numbers" data-nav="numbers">The Numbers</a></li>
       </ul>
     </nav>
   </div>
@@ -509,750 +229,262 @@
 
 <main>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-visual" id="heroVisual">
-    <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="glassBody" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#E4002B" stop-opacity="0.5"/>
-          <stop offset="55%" stop-color="#8C0019" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="#2a0308" stop-opacity="0.15"/>
-        </linearGradient>
-        <radialGradient id="glassShine" cx="30%" cy="20%" r="60%">
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-        </radialGradient>
-        <filter id="softBlur"><feGaussianBlur stdDeviation="6"/></filter>
-      </defs>
-      <ellipse cx="200" cy="370" rx="120" ry="16" fill="#000" opacity="0.35" filter="url(#softBlur)"/>
-      <path d="M150 40 L250 40 L250 100 Q270 130 270 190 L270 330 Q270 355 245 355 L155 355 Q130 355 130 330 L130 190 Q130 130 150 100 Z"
-            fill="url(#glassBody)" stroke="rgba(244,231,219,0.35)" stroke-width="2"/>
-      <path d="M150 40 L250 40 L250 100 Q270 130 270 190 L270 330 Q270 355 245 355 L155 355 Q130 355 130 330 L130 190 Q130 130 150 100 Z"
-            fill="url(#glassShine)"/>
-      <rect x="130" y="205" width="140" height="150" fill="#FF2A44" opacity="0.14"/>
-      <line x1="150" y1="205" x2="250" y2="205" stroke="rgba(244,231,219,0.25)" stroke-width="1.5" stroke-dasharray="3 4"/>
-      <g id="heroBubbles"></g>
-      <g id="heroDrops" opacity="0.8"></g>
+  <!-- HERO -->
+  <section class="hero wrap">
+    <svg class="orbit orbit-hero" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="420" cy="220" r="90" stroke="rgba(247,243,238,0.14)" stroke-width="1"/>
+      <circle cx="420" cy="220" r="170" stroke="rgba(247,243,238,0.1)" stroke-width="1"/>
+      <circle cx="420" cy="220" r="250" stroke="rgba(247,243,238,0.06)" stroke-width="1"/>
+      <path d="M 150 420 A 300 300 0 0 1 420 220" stroke="rgba(244,0,9,0.18)" stroke-width="1"/>
+      <circle cx="420" cy="130" r="4" fill="#f40009"/>
+      <circle cx="330" cy="220" r="3" fill="#f7f3ee" opacity="0.7"/>
+      <circle cx="510" cy="260" r="2.5" fill="#f7f3ee" opacity="0.5"/>
+      <circle cx="470" cy="380" r="3.5" fill="#f40009" opacity="0.8"/>
+      <circle cx="250" cy="380" r="2" fill="#f7f3ee" opacity="0.4"/>
+      <circle cx="590" cy="150" r="2" fill="#f7f3ee" opacity="0.5"/>
+      <circle cx="150" cy="420" r="3" fill="#f40009" opacity="0.6"/>
+      <circle cx="600" cy="470" r="2.5" fill="#f7f3ee" opacity="0.35"/>
     </svg>
-  </div>
-  <div class="hero-inner">
-    <div class="hero-eyebrow"><span class="dot"></span>WLDD × Coca-Cola India — Creator Strategy</div>
-    <h1 class="hero-title">500 creators. 7 brands. <span class="accent">One</span> always-on machine.</h1>
-    <p class="hero-sub">A creator content system built for how India actually drinks — from a matka in a village, to a hostel fridge in Tier 2, to a Gen Z feed in a metro.</p>
-    <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px;">
-      <span class="magnetic"><a href="#model" class="pill-btn primary">See the model</a></span>
-      <span class="magnetic"><a href="#top20" class="pill-btn">Jump to Top 20</a></span>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><span class="num"><span class="red">106</span></span><span class="label">ideas mapped &amp; built out (62 + 44)</span></div>
-      <div class="hero-stat"><span class="num">11</span><span class="label">content formats, one always-on system</span></div>
-      <div class="hero-stat"><span class="num">7</span><span class="label">OGM engines running it end to end</span></div>
-    </div>
-  </div>
-  <div class="scroll-cue"><span>SCROLL</span><div class="glass-line"></div></div>
-</section>
 
-<div class="fizz-divider" id="fizz1"></div>
+    <div class="eyebrow-wrap">
+      <span class="eyebrow-dash"></span>
+      <span class="eyebrow">The Content Universe · 2,000 Creators</span>
+    </div>
+    <h1>Every range the network can produce, <span class="accent">shown in full.</span></h1>
+    <p class="sub">A companion to the operating model — this is the creative side. Six creator archetypes, twenty-four illustrative examples, eleven content genres, filtered by whichever brand you want to see move.</p>
 
-<!-- MODEL -->
-<section id="model">
-  <div class="wrap">
+    <div class="stat-row">
+      <div class="stat"><b>6</b><span>Archetypes</span></div>
+      <div class="stat"><b>24</b><span>Examples</span></div>
+      <div class="stat"><b>11</b><span>Genres</span></div>
+      <div class="stat"><b>6</b><span>Brands</span></div>
+    </div>
+  </section>
+
+  <!-- SECTION 01: BRAND WORLDS -->
+  <section id="brand-worlds" class="wrap">
     <div class="section-head">
-      <span class="eyebrow">The Operating Model</span>
-      <h2>Two layers of creator equity, run by seven engines.</h2>
-      <p>One system holds the identities we build for the long term, and the network we can activate for anything, anywhere, in days.</p>
+      <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">01 / Brand Worlds</span></div>
+      <h2>Pick a brand. <span class="accent">See the gallery change.</span></h2>
+      <p class="sub">Every card below is tagged to the brands it fits. Select one to see only what belongs to it — or leave it on All to see the full range.</p>
     </div>
 
-    <div class="layers reveal">
-      <div class="layer-card">
-        <span class="layer-tag">LAYER 1</span>
-        <h3>Owned &amp; co-owned creator equity</h3>
-        <ul>
-          <li>WLDD-incubated creator identities</li>
-          <li>Coca-Cola-owned recurring formats</li>
-          <li>Select co-owned creator IPs</li>
-          <li>Publication-led IPs</li>
-          <li>Celebrity / established-creator franchises</li>
-          <li>Creators who graduate into long-term ambassadors</li>
-        </ul>
-      </div>
-      <div class="layer-card">
-        <span class="layer-tag">LAYER 2</span>
-        <h3>Retained cultural network</h3>
-        <ul>
-          <li>Nano &amp; micro creators</li>
-          <li>Regional creators</li>
-          <li>Specialist creators — food, gaming, fitness, music, comedy</li>
-          <li>Emerging talent</li>
-          <li>Brand-exclusive cohort creators</li>
-          <li>A smaller pool of portfolio-wide creators</li>
-        </ul>
-      </div>
+    <div class="brand-list" id="brand-list" role="listbox" aria-label="Filter by brand">
+      <button class="brand-row is-active" data-brand="all" role="option" aria-selected="true">
+        <span class="name">All Brands</span><span class="val">Full Range</span>
+      </button>
+      <button class="brand-row" data-brand="coca-cola" role="option" aria-selected="false">
+        <span class="name">Coca-Cola</span><span class="val">Select</span>
+      </button>
+      <button class="brand-row" data-brand="thums-up" role="option" aria-selected="false">
+        <span class="name">Thums Up</span><span class="val">Select</span>
+      </button>
+      <button class="brand-row" data-brand="sprite" role="option" aria-selected="false">
+        <span class="name">Sprite</span><span class="val">Select</span>
+      </button>
+      <button class="brand-row" data-brand="fanta" role="option" aria-selected="false">
+        <span class="name">Fanta</span><span class="val">Select</span>
+      </button>
+      <button class="brand-row" data-brand="diet-coke" role="option" aria-selected="false">
+        <span class="name">Diet Coke</span><span class="val">Select</span>
+      </button>
+      <button class="brand-row" data-brand="limca" role="option" aria-selected="false">
+        <span class="name">Limca</span><span class="val">Select</span>
+      </button>
     </div>
+  </section>
 
-    <h3 style="font-size:1.5rem; margin-bottom:24px;" class="reveal">The seven engines</h3>
-    <div class="engines-grid reveal" id="enginesGrid"></div>
-  </div>
-</section>
-
-<div class="fizz-divider" id="fizz2"></div>
-
-<!-- BUCKETS -->
-<section id="buckets">
-  <div class="wrap">
+  <!-- SECTION 02: CREATOR ARCHETYPE GALLERY -->
+  <section id="creator-gallery" class="wrap">
     <div class="section-head">
-      <span class="eyebrow">Content Architecture</span>
-      <h2>Eleven formats. One always-on library.</h2>
-      <p>Every idea in the system lives in one of these buckets. Click to expand a format for its definition, the ideas that inspired it, and what we'd build next.</p>
+      <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">02 / The Creator Archetype Gallery</span></div>
+      <h2>Not a list. <span class="accent">A range of what's possible.</span></h2>
+      <p class="sub">Six ways a creator relationship can work, each shown with real-style references so the range is concrete, not abstract. Real names referenced are illustrative fits based on public creative style — not confirmed collaborations, endorsements, or commitments.</p>
     </div>
-    <div class="bucket-list" id="bucketList"></div>
-  </div>
-</section>
 
-<div class="fizz-divider" id="fizz3"></div>
+    <div id="archetype-groups"></div>
+    <p class="empty-note" id="empty-note">No cards in this archetype match the selected brand.</p>
 
-<!-- TOP 20 -->
-<section id="top20">
-  <div class="wrap">
+    <div class="style-disclaimer">
+      Style references above (e.g. Kapil Sharma, Bhuvan Bam, Zakir Khan, Ranveer Allahbadia, CarryMinati, Kusha Kapila, Slayy Point, Aiyyo Shraddha) name real, well-known Indian creators whose <em style="font-style:normal;color:var(--cream);">public creative style</em> genuinely matches the archetype described. They are illustrative style references only — not confirmed collaborations, endorsements, commitments, or offers of any kind. Owned-IP and avatar names are working titles for internal use.
+    </div>
+  </section>
+
+  <!-- SECTION 03: CONTENT GENRES -->
+  <section id="content-genres" class="wrap">
     <div class="section-head">
-      <span class="eyebrow">The Ranked List</span>
-      <h2>The Top 20 viral picks.</h2>
-      <p>Ranked by how far and how fast we believe each idea travels. Filter by brand, or by the mechanic that makes it spread.</p>
+      <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">03 / Content Genres</span></div>
+      <h2>What creators <span class="accent">actually produce.</span></h2>
+      <p class="sub">Eleven formats. Every idea in the system lives inside one of these.</p>
     </div>
+    <div id="genre-list"></div>
+  </section>
 
-    <div class="top20-controls">
-      <div class="filter-group" id="brandFilters">
-        <span class="filter-label">BRAND</span>
-      </div>
-    </div>
-    <div class="top20-controls">
-      <div class="filter-group" id="mechFilters">
-        <span class="filter-label">MECHANIC</span>
-      </div>
-      <select class="sort-select" id="sortSelect" style="margin-left:auto;">
-        <option value="rank">Sort: Rank</option>
-        <option value="brand">Sort: Brand A–Z</option>
-        <option value="mechanic">Sort: Mechanic A–Z</option>
-      </select>
-    </div>
-
-    <div class="top20-list" id="top20List"></div>
-  </div>
-</section>
-
-<div class="fizz-divider" id="fizz4"></div>
-
-<!-- BRANDS -->
-<section id="brands">
-  <div class="wrap">
+  <!-- SECTION 04: THE NUMBERS -->
+  <section id="numbers" class="wrap">
     <div class="section-head">
-      <span class="eyebrow">By Brand</span>
-      <h2>Seven brands, seven cultural roles.</h2>
-      <p>Click a brand to filter the whole page — buckets, Top 20, and this view — down to what matters for that brand alone.</p>
-    </div>
-
-    <div class="reset-banner" id="resetBanner">
-      <span>Showing content for <strong id="activeBrandName"></strong> only.</span>
-      <button id="resetBrandBtn">Reset — show all brands</button>
-    </div>
-
-    <div class="brand-tabs" id="brandTabs"></div>
-    <div class="brand-grid" id="brandGrid"></div>
-  </div>
-</section>
-
-<div class="fizz-divider" id="fizz5"></div>
-
-<!-- NUMBERS -->
-<section id="numbers">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">The Split</span>
-      <h2>Where the posting weight sits.</h2>
-      <p>A deliberate mix across content family and geography — built to reach the whole country, not just the feed we already know.</p>
+      <div class="eyebrow-wrap"><span class="eyebrow-dash"></span><span class="eyebrow">04 / The Numbers</span></div>
+      <h2>The <span class="accent">content universe,</span> by the numbers.</h2>
     </div>
     <div class="numbers-grid">
-      <div class="numbers-col">
-        <h3>By content family</h3>
-        <div id="familyBars"></div>
-      </div>
-      <div class="numbers-col">
-        <h3>By geography</h3>
-        <div id="geoBars"></div>
-      </div>
+      <div class="num-block"><b>2,000</b><span>Creators across the network</span></div>
+      <div class="num-block"><b>6</b><span>Archetypes covered</span></div>
+      <div class="num-block"><b>24</b><span>Illustrative examples mapped</span></div>
+      <div class="num-block"><b>11</b><span>Content genres in active use</span></div>
     </div>
-  </div>
-</section>
+  </section>
 
 </main>
 
-<footer>
-  <div class="wrap">
-    <div class="section-head" style="margin-bottom:36px;">
-      <span class="eyebrow">Glossary</span>
-      <h2 style="font-size:1.8rem;">Campaign hooks, at a glance.</h2>
-    </div>
-    <div class="glossary" id="glossaryGrid"></div>
-    <div class="footer-bottom">
-      <span>The Creator Machine — an internal WLDD strategy tool for Coca-Cola India.</span>
-      <span>Confidential — not for external distribution.</span>
-    </div>
-  </div>
+<footer class="wrap">
+  <p class="disclaimer">This gallery is an illustrative planning tool. Real creator and celebrity names shown are references to demonstrate a proven creative style and plausible brand fit — they are not commitments, endorsements, confirmed collaborations, or offers of any kind. Owned-IP and avatar names are working titles for internal use.</p>
+  <p class="mark">CC Creator Gallery · A Sister System to the Operating Model · 2027</p>
 </footer>
 
 <script>
-/* ============ DATA ============ */
+(function(){
+  var BRANDS = { "coca-cola":"Coca-Cola", "thums-up":"Thums Up", "sprite":"Sprite", "fanta":"Fanta", "diet-coke":"Diet Coke", "limca":"Limca" };
 
-const svgIcon = (paths) => `<svg viewBox="0 0 24 24" fill="none" stroke="#FF2A44" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+  var ARCHETYPES = [
+    { num:"Archetype 01", name:"Celebrity IP", cards:[
+      { m:"CH", name:"The Comeback Host", ref:"Kapil Sharma", desc:"A veteran comedy talk-show host anchors a recurring bit on cross-generational nostalgia.", brands:["thums-up","coca-cola"], format:"Weekly talk format" },
+      { m:"MC", name:"The Multiverse Creator", ref:"Bhuvan Bam", desc:"One creator plays every character in a continuous, chaotic sketch storyline.", brands:["sprite","fanta"], format:"Serialised sketch" },
+      { m:"ST", name:"The Small-Town Storyteller", ref:"Zakir Khan", desc:"Hinglish, poetic stand-up turns an ordinary small-town memory into something mass and relatable.", brands:["limca","coca-cola"], format:"Long-form + cutdowns" },
+      { m:"HI", name:"The Hustle Interviewer", ref:"Ranveer Allahbadia", desc:"High-energy rapid-fire interviews wherever people already are.", brands:["diet-coke","thums-up"], format:"Street podcast" }
+    ]},
+    { num:"Archetype 02", name:"Owned IP (brand-owned, no single face)", cards:[
+      { m:"CC", name:"Cold Court", ref:null, desc:"An owned mock-courtroom show settling regional flavour disputes, judged by a rotating live jury.", brands:["fanta"], format:"Owned biweekly show" },
+      { m:"TT", name:"The Thunder Trials", ref:null, desc:"An owned stunt-and-dare property tied to cricket-season energy, rotating hosts.", brands:["thums-up"], format:"Owned seasonal franchise" },
+      { m:"FF", name:"Frame by Frame", ref:null, desc:"A publication-style show reviewing films through the lens of drink placement and set design.", brands:["coca-cola"], format:"Owned weekly publication" },
+      { m:"RC", name:"Route to Cold", ref:null, desc:"An owned road-trip docuseries tracing how different regions of India cool down, one state per episode.", brands:["limca"], format:"Owned docuseries" }
+    ]},
+    { num:"Archetype 03", name:"Talking Head", cards:[
+      { m:"RV", name:"The Roast Voice", ref:"CarryMinati", desc:"One camera, one blunt opinion, built for mass reach and comment-section fire.", brands:["thums-up"], format:"Solo commentary" },
+      { m:"DS", name:"The Dry Satirist", ref:"Kusha Kapila", desc:"Deadpan, character-led takes on whatever the internet is arguing about.", brands:["diet-coke","coca-cola"], format:"Character-led satire" },
+      { m:"TE", name:"The Trend Explainer Duo", ref:"Slayy Point", desc:"Two hosts break down why something suddenly took over the internet.", brands:["sprite","fanta"], format:"Explainer duo" },
+      { m:"FL", name:"The Frugal Logic Creator", ref:null, desc:"Reframes small daily money choices as a running, self-aware bit.", brands:["diet-coke"], format:"Daily micro-log" }
+    ]},
+    { num:"Archetype 04", name:"Family Man", cards:[
+      { m:"FS", name:"The Father–Son Duo", ref:null, desc:"Generational credibility transfer, one drink both eras agree on.", brands:["thums-up"], format:"Recurring home format" },
+      { m:"JF", name:"The Joint Family Chronicle", ref:null, desc:"Real festive/togetherness chaos inside a large household, unscripted.", brands:["coca-cola"], format:"Observational vlog" },
+      { m:"YH", name:"The Young Household", ref:null, desc:"Everyday domestic ritual content from a new-parent household.", brands:["limca"], format:"Daily-life vlog" },
+      { m:"SB", name:"The Sibling Banter Duo", ref:null, desc:"Everyday mischief between siblings, brand present but never the point.", brands:["fanta"], format:"Short-form banter" }
+    ]},
+    { num:"Archetype 05", name:"Vocal For Local", cards:[
+      { m:"SC", name:"The South Culture Voice", ref:"Aiyyo Shraddha", desc:"Regional comedy that reads as genuinely local, never dubbed.", brands:["sprite","coca-cola"], format:"Regional-language shorts" },
+      { m:"PF", name:"The Punjabi Function Documentarian", ref:null, desc:"Real weddings and celebrations captured as they actually unfold.", brands:["thums-up"], format:"On-ground documentation" },
+      { m:"BA", name:"The Bengali Adda Host", ref:null, desc:"Conversation-first culture content, drink as ritual not prop.", brands:["fanta"], format:"Conversational series" },
+      { m:"MS", name:"The Maharashtrian Street-Food Specialist", ref:null, desc:"Hyper-local pairing content, thela to home kitchen.", brands:["limca"], format:"Regional food series" }
+    ]},
+    { num:"Archetype 06", name:"Avatar-Led", cards:[
+      { m:"TH", name:"Thunder", ref:null, desc:"A deadpan animated mascot reacting to live cricket moments in exactly one word.", brands:["thums-up"], format:"Reactive animated clips" },
+      { m:"PR", name:"Prism", ref:null, desc:"A colour-shifting animated character rating outfit \"vibes\" against flavour colours.", brands:["fanta"], format:"Weekly animated segment" },
+      { m:"CT", name:"Cold Take", ref:null, desc:"A minimal talking-can character, one blunt opinion on trending topics daily.", brands:["sprite"], format:"Daily one-liner" },
+      { m:"AR", name:"The Archive", ref:null, desc:"An AI narrator revisiting one 2000s/2010s Indian pop-culture memory per post.", brands:["coca-cola","diet-coke"], format:"Nostalgia desk" }
+    ]}
+  ];
 
-const engines = [
-  { icon:svgIcon('<path d="M12 3 L4 8 L4 16 L12 21 L20 16 L20 8 Z"/><path d="M12 3 L12 21"/><path d="M4 8 L20 16"/><path d="M20 8 L4 16"/>'), name:'Creator Farm', desc:'Long-term, face-led cultural presence — the identities we build to last.' },
-  { icon:svgIcon('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>'), name:'Solo', desc:'Discovery, onboarding, briefing, contracting, payments, rights, scoring.' },
-  { icon:svgIcon('<path d="M12 2 L14 9 L21 9 L15.5 13.5 L17.5 21 L12 16.5 L6.5 21 L8.5 13.5 L3 9 L10 9 Z"/>'), name:'Memed', desc:'Outcome-led seeding, amplification, and winner-scaling once something catches.' },
-  { icon:svgIcon('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/>'), name:'WLDD Strategy', desc:'Portfolio planning, content architecture, campaign integration, governance.' },
-  { icon:svgIcon('<path d="M12 3 L14.5 9.5 L21 10 L16 14.3 L17.6 21 L12 17.3 L6.4 21 L8 14.3 L3 10 L9.5 9.5 Z"/>'), name:'Creator IPs', desc:'Recurring shows, personalities, rituals, and formats that compound over time.' },
-  { icon:svgIcon('<path d="M12 3 L20 6 L20 12 Q20 18 12 21 Q4 18 4 12 L4 6 Z"/><path d="M9 12l2 2 4-4"/>'), name:'Distribution Insurance', desc:'Extra organic push when a priority asset underperforms its moment.' },
-  { icon:svgIcon('<path d="M4 20V10M11 20V4M18 20v-7"/><path d="M2 20h20"/>'), name:'Measurement', desc:'Dashboards connecting output → attention → culture → business signal.' },
-];
+  var GENRES = [
+    { name:"Recurring Creator Series", def:"A creator's own show, recurring and brand-integrated.", ex:[["Father–son household duo","a generational bit settling on one drink both eras trust"],["Diet Coke Hustle Log","a daily 15-second grindset diary, always ending the same way"]] },
+    { name:"Brand-Owned Franchises", def:"Coca-Cola visibly owns it, creators rotate through.", ex:[["Cold Court",""],["The Thunder Trials",""]] },
+    { name:"Challenges & Participation", def:"A replicable action built for mass duet/remix.", ex:[["Blind Fizz Test","guess the drink by sound and fizz alone, blindfolded"],["Perfect Pour Challenge","zero-foam pour, timed and judged"]] },
+    { name:"Food Pairings & Rituals", def:"The drink inside an existing eating ritual, not the hero.", ex:[["Thums Up Paani Puri",""],["Midnight Maggi + Coke","a quiet hostel-ritual mini-doc"]] },
+    { name:"Music & Artist Properties", def:"Licensed or co-created sound-first moments.", ex:[["Fizzstrumental","a track built from can-crack and pour sounds"],["Rooftop Session","a monthly unplugged cover series, one local band per episode"]] },
+    { name:"Regional Culture Formats", def:"Native to one region's humour, festival or dialect.", ex:[["Village Games Series","real gilli-danda and kabaddi, cold drink crate as trophy"],["Matka-Chilled Coke","a genuine rural cooling method shown as a practical hack"]] },
+    { name:"Avatar-Led Content", def:"A fictional/animated persona as the recurring face.", ex:[["Thunder",""],["Cold Take",""]] },
+    { name:"UGC & CGC", def:"Real people making unscripted content the brand surfaces.", ex:[["My Fridge, My Rules","a repost chain of the most chaotic/neatest fridges"],["Prove You Found 10","a live, on-ground hidden-can hunt"]] },
+    { name:"White-Labelled Creator Content", def:"Native placement, no visible brand authorship.", ex:[["Study-With-Me, Coke in Frame","ambient presence in exam-season livestreams"],["Driver-Vlogger Creators","a cold-drink crate visible, \"for my riders\""]] },
+    { name:"Publication-Led Formats", def:"A media-style page, not one creator's feed.", ex:[["Frame by Frame",""],["State of Fizz","ranked regional consumption data turned into shareable memes"]] },
+    { name:"Paid-Ready Performance Assets", def:"Organic winners restructured to run as paid media.", ex:[["Perfect Pour cutdowns","recut behind quick-commerce placements"],["Village Games, geo-targeted home","paid only back into the region that made it"]] }
+  ];
 
-const buckets = [
-  { name:'Recurring Creator Series', def:'Weekly or regular creator-led shows with a consistent format and a face audiences return for.',
-    source:['Angootha Chapp — Thums Up weekly verdict show','Choti Advance Badi Coke'],
-    fresh:['Diet Coke Hustle Log — a running series of small wins','A Sprite "cold take of the week" desk bit','Fanta color-of-the-week street polls','Limca village verdict circuit'] },
-  { name:'Brand-Owned Franchises', def:'Bigger, produced formats the brand owns outright — closer to a mini show than a single post.',
-    source:['Sprite is Right — game show','Coke Chronicles — mini-doc','Tujha Nahi Maaza — roast battle','Catch Me If You Can — perfect-can manhunt'],
-    fresh:['Thums Up Dare Court — verdict-style dare adjudication','Fanta Colour Court fashion runoff','Limca Summer Relief Files docu-series','Pulpy Orange Taste Trials'] },
-  { name:'Challenges & Participation Templates', def:'Zero-friction, infinitely replicable formats anyone can join — the engine of scale.',
-    source:['Blind Fizz Test','Blurring the Can','Perfect Pour Challenge','Find-10-Cans reel','Gum & Coke Dare'],
-    fresh:['One-Handed Pour Challenge','Guess the Brand by Sound','Speed Chug Countdown (safe, playful)','Can Balance Stack-off'] },
-  { name:'Food Pairings & Rituals', def:'Content built around the everyday act of drinking Coke with food — a ritual, not an ad.',
-    source:['Thums Up Paani Puri','Diet Coke + Kenavita "Balanced Meal"','Thela vs Table','Midnight Maggi + Coke'],
-    fresh:['Fanta + Golgappa street trial','Sprite with spicy street food heat-test','Limca monsoon bhutta pairing','Pulpy Orange breakfast ritual series'] },
-  { name:'Music & Artist Properties', def:'Formats where Coke shows up inside music culture, not next to it.',
-    source:['Broke Studio: Thums Up Session','Fizzstrumental','Angootha Chapp Freestyle cypher'],
-    fresh:['Fanta Beat Drop remix series','Sprite Cold Mix DJ sessions','Limca Local Anthem hunt','Thums Up Open Mic circuit'] },
-  { name:'Regional Culture Formats', def:'Content rooted in specific regional rituals and geographies, not a pan-India generic feed.',
-    source:['Village Games Series','Kabaddi Break','Matka-chilled Coke','Baraat Beat','Fast-Friendly Fizz'],
-    fresh:['Mela Stall Takeover series','Border-state slang challenge','Coastal Catch & Fizz fisherfolk series','Hill-station Chill Chain relay'] },
-  { name:'Avatar-Led Content', def:'AI or animated brand characters that host, react, and comment as recurring digital personalities.',
-    source:['Thunder — Thums Up mascot AI','Fanta\'s Prism','Sprite\'s Cold Take talking can'],
-    fresh:['Limca\'s "Fizzwit" regional-language avatar','Diet Coke\'s deadpan commentary bot','Pulpy Orange orchard mascot','Coke Zero minimalist avatar duets'] },
-  { name:'UGC & CGC', def:'Content sourced from real people and creators, not produced top-down — the brand curates rather than directs.',
-    source:['My Fridge My Rules','Caption This Can','Prove You Found 10','Publicly-sourced Fanta bottle design'],
-    fresh:['Design the Next Limca Label','Thums Up Dare Wall submissions','Sprite Cold Take caption remix','Diet Coke Desk Setup showcase'] },
-  { name:'White-Labelled Creator Content', def:'Coke sits naturally in an existing creator niche\'s content, without becoming the subject.',
-    source:['Study-With-Me creators with Coke in frame','Finance-Bro creators with Diet Coke','Driver-Vlogger creators'],
-    fresh:['Gym-log creators with Coke Zero','Hostel-life vloggers with Thums Up','Home-cook creators with Limca in the kitchen','Night-shift creators with Coke on desk'] },
-  { name:'Publication-Led Formats', def:'Editorial-style series that borrow the credibility and format of a publication or ranking.',
-    source:['Frame by Frame — movie reviews via drink placement','Fanta Rewind','State of Fizz rankings','Fantastic Memes'],
-    fresh:['The Fizz Index — weekly culture ranking','Coke Archive — nostalgia deep-dives','Thums Up Power Rankings by city','Diet Coke Desk Culture column'] },
-  { name:'Paid-Ready Performance Assets', def:'This bucket pulls from every other bucket\'s organic winners — nothing originates here. Once a piece proves it travels, we cut it for paid.',
-    source:['Perfect Pour cutdowns','Village Games geo-targeted retargeting','Hustle Log carousel'],
-    fresh:['Blind Fizz Test 6-second cutdown','Catch Me If You Can geo-fenced retarget','Angootha Chapp best-verdicts reel','State of Fizz city-specific carousel'] },
-];
-
-const BRANDS = ['Coca-Cola','Diet Coke','Sprite','Fanta','Limca','Thums Up','Pulpy Orange'];
-const MECHANICS = ['challenge','meme','identity','irony','owned IP','regional','trend-ride','brain rot'];
-
-const top20 = [
-  {rank:1, name:'Angootha Chapp', why:'Spans series, challenge and UGC at once — a format people can join, not just watch.', brand:'Thums Up', mech:'owned IP'},
-  {rank:2, name:'Blind Fizz Test', why:'Zero production cost, infinitely replicable by anyone with two cups.', brand:'All brands', mech:'challenge'},
-  {rank:3, name:'Blurring the Can', why:'A visual signature that doubles as a guessing game — instantly recognisable.', brand:'All brands', mech:'identity'},
-  {rank:4, name:'Find-10-Coke-Cans Reel', why:'Rides the proven find-the-ducks genre with zero explanation needed.', brand:'Coca-Cola', mech:'trend-ride'},
-  {rank:5, name:'Perfect Pour Challenge', why:'Satisfying when it works, funny when it fails — wins both ways.', brand:'All brands', mech:'challenge'},
-  {rank:6, name:'Village Games Series', why:'Documentary craft plus nostalgia plus genuine rural reach.', brand:'Limca / Thums Up', mech:'regional'},
-  {rank:7, name:'#Fantaverse', why:'An aesthetic-first challenge that plays as fashion content, not an ad.', brand:'Fanta', mech:'identity'},
-  {rank:8, name:'"He\'s the Coke Zero of my life"', why:'A caption-remix trend built for infinite personal reinterpretation.', brand:'Coke Zero', mech:'meme'},
-  {rank:9, name:'Gym ke Bahar Coke', why:'Irony played completely straight is funnier than irony played for laughs.', brand:'Coca-Cola', mech:'irony'},
-  {rank:10, name:'Diet Coke Hustle Log', why:'Rides the hustle-culture wave but adds a self-aware twist that keeps it likeable.', brand:'Diet Coke', mech:'trend-ride'},
-  {rank:11, name:'Ordering Everything But Also a Coke', why:'An escalating duet chain — each version has to top the last.', brand:'Coca-Cola', mech:'meme'},
-  {rank:12, name:'Fridge Organisation Videos', why:'Rides an existing, proven trend format with the brand slotted in naturally.', brand:'All brands', mech:'trend-ride'},
-  {rank:13, name:'Catch Me If You Can', why:'Real stakes — a lifetime supply — give people a genuine reason to participate.', brand:'Coca-Cola', mech:'challenge'},
-  {rank:14, name:'State of Fizz', why:'Regional pride guarantees comment-section wars, and wars drive reach.', brand:'Portfolio', mech:'regional'},
-  {rank:15, name:'Fantastic Memes', why:'A dedicated meme engine built to move at internet speed, not campaign speed.', brand:'Fanta', mech:'meme'},
-  {rank:16, name:'Dhakan-ko-Per-Se-Laath Streak', why:'Pure, glorious brain rot — no explanation required or wanted.', brand:'Coca-Cola', mech:'brain rot'},
-  {rank:17, name:'Gully Cricket / Kirana League', why:'Real community, real local stakes — this is culture, not a campaign shoot.', brand:'Thums Up', mech:'regional'},
-  {rank:18, name:'Thums Up Paani Puri', why:'One surprising hero moment does the work of an entire campaign.', brand:'Thums Up', mech:'irony'},
-  {rank:19, name:'"India\'s Got Thunder" Fan Page', why:'A community-owned rallying phrase that keeps growing without our input.', brand:'Thums Up', mech:'identity'},
-  {rank:20, name:'Gum & Coke Dare', why:'A classic stunt format at near-zero cost — reliable, not flashy.', brand:'Coca-Cola', mech:'challenge'},
-];
-
-const brandColors = {
-  'Coca-Cola':'#E4002B', 'Diet Coke':'#B7B9BC', 'Sprite':'#00A651', 'Fanta':'#FF7A00',
-  'Limca':'#00B04F', 'Thums Up':'#111111', 'Pulpy Orange':'#FF8C1A'
-};
-function capEmblem(color){
-  return `<svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="20" fill="${color}" opacity="0.16" stroke="${color}" stroke-width="1.5"/>
-  <g stroke="${color}" stroke-width="1.4" opacity="0.9">
-  ${Array.from({length:12}).map((_,i)=>{ const a = i*30*Math.PI/180; const x1=22+16*Math.cos(a), y1=22+16*Math.sin(a), x2=22+20*Math.cos(a), y2=22+20*Math.sin(a); return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`; }).join('')}
-  </g><circle cx="22" cy="22" r="10" fill="none" stroke="${color}" stroke-width="1.5"/></svg>`;
-}
-
-const brandData = [
-  { name:'Coca-Cola', cohort:'Metro Gen Z and young urban India, always-on digital natives.', trigger:'Everyday refresh moments — meals, hangouts, late-night scrolling.', idea:'Find-10-Coke-Cans Reel and the Gum & Coke Dare stunt format.' },
-  { name:'Diet Coke', cohort:'Urban professionals and hustle-culture audiences balancing routine and indulgence.', trigger:'Desk breaks, gym recovery, "treat yourself" moments.', idea:'Diet Coke Hustle Log — a running series of small wins.' },
-  { name:'Sprite', cohort:'Youth culture audiences who value wit and irreverence over polish.', trigger:'Heat relief, spicy food comedowns, "cold take" commentary moments.', idea:'Sprite is Right game show and the Cold Take talking-can avatar.' },
-  { name:'Fanta', cohort:'Gen Z and teen audiences drawn to color, fashion and self-expression.', trigger:'Parties, aesthetic content moments, playful self-branding.', idea:'#Fantaverse aesthetic challenge and Fantastic Memes.' },
-  { name:'Limca', cohort:'Tier 2/3 and semi-urban audiences with strong regional identity.', trigger:'Summer heat, festive travel, local gatherings.', idea:'Village Games Series and Matka-chilled Coke rituals.' },
-  { name:'Thums Up', cohort:'Mass, masculine-coded, pan-India audience with deep regional roots.', trigger:'Sports, local pride moments, everyday street food stops.', idea:'Angootha Chapp weekly verdict show and Thums Up Paani Puri.' },
-  { name:'Pulpy Orange', cohort:'Families and younger audiences looking for a fuller, fruit-forward option.', trigger:'Breakfast, school/college breaks, casual snacking.', idea:'Pulpy Orange Taste Trials and orchard-mascot avatar content.' },
-];
-
-const glossary = [
-  { name:'Thalpi with Pulpy', home:'Pulpy Orange — regional warmth-and-comfort seasonal hook.' },
-  { name:'Coke Chronicles', home:'Coca-Cola — mini-doc brand-owned franchise.' },
-  { name:'Angootha Chapp', home:'Thums Up — recurring weekly verdict series.' },
-  { name:'Sprite is Right', home:'Sprite — brand-owned game show franchise.' },
-  { name:'Tujha Nahi Maaza', home:'Maaza — roast-battle brand-owned franchise.' },
-  { name:'Fanta with Santa', home:'Fanta — reserved for December seasonal activation.', seasonal:true },
-  { name:'Choti Advance Badi Coke', home:'Coca-Cola — recurring creator series format.' },
-];
-
-const familyBars = [
-  {label:'Challenges & templates', pct:20}, {label:'Regional culture', pct:15},
-  {label:'Recurring series', pct:15}, {label:'Food pairings', pct:12},
-  {label:'Franchises', pct:10}, {label:'UGC / CGC', pct:10},
-  {label:'White-labelled', pct:8}, {label:'Music', pct:8},
-  {label:'Publication-led', pct:7}, {label:'Avatar-led', pct:5},
-];
-const geoBars = [
-  {label:'Urban Tier 1 Gen Z', pct:30}, {label:'Urban Tier 2/3', pct:30},
-  {label:'Rural / village', pct:25}, {label:'Pan-India / festive', pct:15},
-];
-
-/* ============ RENDER ============ */
-
-document.getElementById('enginesGrid').innerHTML = engines.map(e => `
-  <div class="engine-card tilt">
-    <div class="engine-icon">${e.icon}</div>
-    <h4>${e.name}</h4>
-    <p>${e.desc}</p>
-  </div>`).join('');
-
-document.getElementById('bucketList').innerHTML = buckets.map((b,i) => `
-  <div class="bucket" data-idx="${i}">
-    <div class="bucket-head" onclick="toggleBucket(${i})">
-      <span class="bucket-num">${String(i+1).padStart(2,'0')}</span>
-      <svg class="bucket-icon" viewBox="0 0 24 24" fill="none" stroke="#FF2A44" stroke-width="1.4"><path d="M9 3h6l1 6.5c2 2 3 5 3 7.5a7 7 0 1 1-14 0c0-2.5 1-5.5 3-7.5Z"/></svg>
-      <span class="bucket-name">${b.name}</span>
-      <span class="bucket-plus"></span>
-    </div>
-    <div class="bucket-body" id="bucketBody${i}">
-      <div class="bucket-body-inner">
-        <div style="grid-column:1/-1;"><p class="bucket-def">${b.def}</p></div>
-        <div class="bucket-col">
-          <h5>Source ideas</h5>
-          <ul>${b.source.map(s=>`<li>${s}</li>`).join('')}</ul>
-        </div>
-        <div class="bucket-col new">
-          <h5>New ideas to build</h5>
-          <ul>${b.fresh.map(s=>`<li>${s}</li>`).join('')}</ul>
-        </div>
-      </div>
-    </div>
-  </div>`).join('');
-
-function toggleBucket(i){
-  const el = document.querySelector(`.bucket[data-idx="${i}"]`);
-  const body = document.getElementById('bucketBody'+i);
-  const isOpen = el.classList.contains('open');
-  el.classList.toggle('open');
-  body.style.maxHeight = isOpen ? '0px' : body.scrollHeight + 'px';
-}
-
-/* Top 20 */
-let activeBrandFilter = 'all';
-let activeMechFilter = 'all';
-let currentSort = 'rank';
-let globalBrandFilter = null; // from "By Brand" section
-
-document.getElementById('brandFilters').innerHTML += ['All', ...BRANDS].map(b =>
-  `<button class="filter-chip ${b==='All'?'active':''}" data-brand="${b}" onclick="setBrandFilter('${b}', this)">${b}</button>`
-).join('');
-
-document.getElementById('mechFilters').innerHTML += ['All', ...MECHANICS].map(m =>
-  `<button class="filter-chip ${m==='All'?'active':''}" data-mech="${m}" onclick="setMechFilter('${m}', this)">${m}</button>`
-).join('');
-
-function setBrandFilter(b, el){
-  activeBrandFilter = b === 'All' ? 'all' : b;
-  document.querySelectorAll('#brandFilters .filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  renderTop20();
-}
-function setMechFilter(m, el){
-  activeMechFilter = m === 'All' ? 'all' : m;
-  document.querySelectorAll('#mechFilters .filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  renderTop20();
-}
-document.getElementById('sortSelect').addEventListener('change', e => {
-  currentSort = e.target.value;
-  renderTop20();
-});
-
-function matchesBrand(itemBrand, filterBrand){
-  if(filterBrand === 'all') return true;
-  if(itemBrand === 'All brands' || itemBrand === 'Portfolio') return true;
-  return itemBrand.toLowerCase().includes(filterBrand.toLowerCase());
-}
-
-function renderTop20(){
-  let list = [...top20];
-  const brandFilter = globalBrandFilter || activeBrandFilter;
-
-  list = list.filter(item => matchesBrand(item.brand, brandFilter) && (activeMechFilter==='all' || item.mech === activeMechFilter));
-
-  if(currentSort === 'brand') list.sort((a,b)=> a.brand.localeCompare(b.brand));
-  else if(currentSort === 'mechanic') list.sort((a,b)=> a.mech.localeCompare(b.mech));
-  else list.sort((a,b)=> a.rank - b.rank);
-
-  document.getElementById('top20List').innerHTML = list.map(item => `
-    <div class="top20-item tilt">
-      <div class="top20-rank">${String(item.rank).padStart(2,'0')}</div>
-      <div class="top20-main">
-        <h4>${item.name}</h4>
-        <p>${item.why}</p>
-      </div>
-      <div class="top20-tags">
-        <span class="tag on">${item.brand}</span>
-        <span class="tag">${item.mech}</span>
-      </div>
-    </div>`).join('') || `<p style="color:var(--cream-dimmer); padding:20px 0;">No ideas match this combination — try clearing a filter.</p>`;
-}
-renderTop20();
-
-/* Brand tabs / cards */
-document.getElementById('brandTabs').innerHTML = BRANDS.map(b =>
-  `<button class="brand-tab" data-brand="${b}" onclick="filterByBrand('${b}')">${b}</button>`
-).join('');
-
-function renderBrandCards(){
-  document.getElementById('brandGrid').innerHTML = brandData.map(b => `
-    <div class="brand-card tilt ${globalBrandFilter && globalBrandFilter !== b.name ? 'dim':''}" data-brand="${b.name}">
-      <div class="brand-emblem">${capEmblem(brandColors[b.name])}</div>
-      <h4>${b.name}</h4>
-      <div class="field"><div class="field-label">Core cohort</div><div class="field-val">${b.cohort}</div></div>
-      <div class="field"><div class="field-label">Trigger occasion</div><div class="field-val">${b.trigger}</div></div>
-      <div class="field"><div class="field-label">Signature idea</div><div class="field-val">${b.idea}</div></div>
-    </div>`).join('');
-}
-renderBrandCards();
-
-function filterByBrand(name){
-  globalBrandFilter = globalBrandFilter === name ? null : name;
-  document.querySelectorAll('.brand-tab').forEach(t => t.classList.toggle('active', t.dataset.brand === globalBrandFilter));
-  document.getElementById('resetBanner').classList.toggle('show', !!globalBrandFilter);
-  if(globalBrandFilter) document.getElementById('activeBrandName').textContent = globalBrandFilter;
-  renderBrandCards();
-  renderTop20();
-  filterBucketsByBrand();
-}
-document.getElementById('resetBrandBtn').addEventListener('click', () => {
-  globalBrandFilter = null;
-  document.querySelectorAll('.brand-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('resetBanner').classList.remove('show');
-  renderBrandCards();
-  renderTop20();
-  filterBucketsByBrand();
-});
-
-function filterBucketsByBrand(){
-  const buckets = document.querySelectorAll('.bucket');
-  if(!globalBrandFilter){
-    buckets.forEach(b => b.style.display = '');
-    return;
-  }
-  const term = globalBrandFilter.toLowerCase();
-  buckets.forEach((b, i) => {
-    const text = (window.buckets ? '' : '');
-  });
-  // Simple relevance: show bucket if any source/fresh idea text mentions the brand name (rough heuristic)
-  const bucketEls = document.querySelectorAll('.bucket');
-  bucketEls.forEach((el, i) => {
-    const bodyText = el.textContent.toLowerCase();
-    const brandWords = term.split(' ');
-    const match = brandWords.some(w => w.length > 2 && bodyText.includes(w));
-    el.style.display = match ? '' : 'none';
-  });
-}
-
-/* ============ NAV ACTIVE HIGHLIGHT ============ */
-const sections = document.querySelectorAll('main > section');
-const navLinks = document.querySelectorAll('nav a');
-function updateActiveNav(){
-  let current = 'hero';
-  sections.forEach(sec => {
-    const rect = sec.getBoundingClientRect();
-    if(rect.top <= 120 && rect.bottom >= 120) current = sec.id;
-  });
-  navLinks.forEach(l => l.classList.toggle('active', l.dataset.sec === current));
-}
-window.addEventListener('scroll', updateActiveNav, {passive:true});
-updateActiveNav();
-
-/* ============ REVEAL ON SCROLL ============ */
-const revealEls = document.querySelectorAll('.reveal');
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
-}, {threshold:0.15});
-revealEls.forEach(el => revealObs.observe(el));
-
-/* ============ NUMBERS: bars + glossary + orchestrated reveal ============ */
-document.getElementById('familyBars').innerHTML = familyBars.map(f => `
-  <div class="bar-row">
-    <div class="bar-top"><span>${f.label}</span><span class="bar-pct">${f.pct}%</span></div>
-    <div class="bar-track"><div class="bar-fill" data-pct="${f.pct}"></div></div>
-  </div>`).join('');
-document.getElementById('geoBars').innerHTML = geoBars.map(f => `
-  <div class="bar-row">
-    <div class="bar-top"><span>${f.label}</span><span class="bar-pct">${f.pct}%</span></div>
-    <div class="bar-track"><div class="bar-fill" data-pct="${f.pct}"></div></div>
-  </div>`).join('');
-
-let numbersAnimated = false;
-const numbersSection = document.getElementById('numbers');
-const numbersObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting && !numbersAnimated){
-      numbersAnimated = true;
-      document.querySelectorAll('.bar-fill').forEach((bar, idx) => {
-        setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, idx * 70);
+  function renderArchetypes(){
+    var root = document.getElementById('archetype-groups');
+    var html = '';
+    ARCHETYPES.forEach(function(group, gi){
+      html += '<div class="archetype-group" data-group="'+gi+'">';
+      html += '<div class="archetype-head"><span class="archetype-num">'+group.num+'</span><h3>'+group.name+'</h3></div>';
+      html += '<div class="card-grid">';
+      group.cards.forEach(function(c){
+        html += '<div class="card" data-brands="'+c.brands.join(',')+'">';
+        html += '<div class="monogram">'+c.m+'</div>';
+        html += '<h4>'+c.name+'</h4>';
+        if(c.ref){ html += '<div class="styleref">Style ref: '+c.ref+'</div>'; }
+        html += '<p class="desc">'+c.desc+'</p>';
+        html += '<div class="tags">';
+        c.brands.forEach(function(b){ html += '<span class="tag">'+BRANDS[b]+'</span>'; });
+        html += '<span class="tag format">'+c.format+'</span>';
+        html += '</div></div>';
       });
-    }
-  });
-}, {threshold:0.25});
-numbersObs.observe(numbersSection);
-
-document.getElementById('glossaryGrid').innerHTML = glossary.map(g => `
-  <div class="glossary-item ${g.seasonal ? 'seasonal':''}">
-    <h5>${g.name}</h5>
-    <p>${g.home}</p>
-    ${g.seasonal ? '<span class="seasonal-flag">Seasonal — December</span>' : ''}
-  </div>`).join('');
-
-/* ============ FIZZ DIVIDERS (SVG) ============ */
-function fizzSVG(seed){
-  let circles = '';
-  for(let i=0;i<24;i++){
-    const x = (i * 47 + seed*13) % 1160 + 10;
-    const r = 2 + ((i*7+seed) % 5);
-    const y = 32 + Math.sin(i*1.3+seed) * 14;
-    const op = 0.15 + ((i*3+seed) % 6) * 0.08;
-    circles += `<circle cx="${x}" cy="${y}" r="${r}" fill="#E4002B" opacity="${op.toFixed(2)}"/>`;
+      html += '</div></div>';
+    });
+    root.innerHTML = html;
   }
-  return `<svg viewBox="0 0 1180 64" preserveAspectRatio="none">
-    <line x1="0" y1="32" x2="1180" y2="32" stroke="rgba(244,231,219,0.08)" stroke-width="1"/>
-    ${circles}
-  </svg>`;
-}
-['fizz1','fizz2','fizz3','fizz4','fizz5'].forEach((id, i) => {
-  document.getElementById(id).innerHTML = fizzSVG(i*11+3);
-});
 
-/* ============ ATMOSPHERE CANVAS: bubbles + condensation droplets ============ */
-(function(){
-  const canvas = document.getElementById('atmosphere');
-  const ctx = canvas.getContext('2d');
-  let W, H, DPR;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function resize(){
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth; H = window.innerHeight;
-    canvas.width = W * DPR; canvas.height = H * DPR;
-    canvas.style.width = W+'px'; canvas.style.height = H+'px';
-    ctx.setTransform(DPR,0,0,DPR,0,0);
+  function renderGenres(){
+    var root = document.getElementById('genre-list');
+    var html = '';
+    GENRES.forEach(function(g, i){
+      html += '<div class="genre-row">';
+      html += '<div><span class="g-num">'+String(i+1).padStart(2,'0')+'</span><h4>'+g.name+'</h4><p class="g-def">'+g.def+'</p></div>';
+      html += '<div class="genre-examples">';
+      g.ex.forEach(function(e){
+        html += '<div class="ex"><b>'+e[0]+'</b>'+(e[1] ? ' — '+e[1] : '')+'</div>';
+      });
+      html += '</div></div>';
+    });
+    root.innerHTML = html;
   }
-  resize();
-  window.addEventListener('resize', resize);
 
-  const bubbleCount = window.innerWidth < 700 ? 18 : 34;
-  const bubbles = [];
-  for(let i=0;i<bubbleCount;i++){
-    bubbles.push({
-      x: Math.random()*W,
-      y: H + Math.random()*H,
-      r: 1 + Math.random()*3.2,
-      speed: 0.15 + Math.random()*0.5,
-      drift: (Math.random()-0.5)*0.3,
-      wob: Math.random()*Math.PI*2,
-      op: 0.08 + Math.random()*0.18,
+  function applyFilter(brand){
+    var groups = document.querySelectorAll('.archetype-group');
+    var anyVisible = false;
+    groups.forEach(function(group){
+      var cards = group.querySelectorAll('.card');
+      var visibleCount = 0;
+      cards.forEach(function(card){
+        var brands = card.getAttribute('data-brands').split(',');
+        var show = brand === 'all' || brands.indexOf(brand) !== -1;
+        card.classList.toggle('is-hidden', !show);
+        if(show) visibleCount++;
+      });
+      group.style.display = visibleCount > 0 ? '' : 'none';
+      if(visibleCount > 0) anyVisible = true;
+    });
+    document.getElementById('empty-note').classList.toggle('show', !anyVisible);
+  }
+
+  function setupBrandList(){
+    var rows = document.querySelectorAll('.brand-row');
+    rows.forEach(function(row){
+      row.addEventListener('click', function(){
+        rows.forEach(function(r){ r.classList.remove('is-active'); r.setAttribute('aria-selected','false'); });
+        row.classList.add('is-active');
+        row.setAttribute('aria-selected','true');
+        applyFilter(row.getAttribute('data-brand'));
+      });
     });
   }
 
-  const dropletCount = window.innerWidth < 700 ? 10 : 20;
-  const droplets = [];
-  for(let i=0;i<dropletCount;i++){
-    droplets.push({
-      x: Math.random()*W,
-      y: Math.random()*H,
-      r: 4 + Math.random()*10,
-      op: 0.05 + Math.random()*0.09,
-      slideSpeed: 0.02 + Math.random()*0.05,
-      life: Math.random()*600,
-    });
+  function setupNavHighlight(){
+    var links = document.querySelectorAll('#nav-links a');
+    var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          links.forEach(function(l){ l.classList.remove('active'); });
+          var active = document.querySelector('#nav-links a[data-nav="'+entry.target.id+'"]');
+          if(active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
   }
 
-  function drawBubble(b){
-    ctx.beginPath();
-    const bx = b.x + Math.sin(b.wob) * 8;
-    ctx.arc(bx, b.y, b.r, 0, Math.PI*2);
-    const grad = ctx.createRadialGradient(bx - b.r*0.3, b.y - b.r*0.3, 0, bx, b.y, b.r);
-    grad.addColorStop(0, `rgba(255,220,220,${b.op})`);
-    grad.addColorStop(1, `rgba(228,0,43,${b.op*0.4})`);
-    ctx.fillStyle = grad;
-    ctx.fill();
-  }
-
-  function drawDroplet(d){
-    ctx.beginPath();
-    ctx.ellipse(d.x, d.y, d.r*0.72, d.r, 0, 0, Math.PI*2);
-    const grad = ctx.createRadialGradient(d.x - d.r*0.25, d.y - d.r*0.3, 0, d.x, d.y, d.r);
-    grad.addColorStop(0, `rgba(243,233,221,${d.op*1.6})`);
-    grad.addColorStop(1, `rgba(243,233,221,0)`);
-    ctx.fillStyle = grad;
-    ctx.fill();
-  }
-
-  let raf;
-  function tick(){
-    ctx.clearRect(0,0,W,H);
-    bubbles.forEach(b => {
-      b.y -= b.speed;
-      b.wob += 0.02;
-      if(b.y < -10){ b.y = H + 10; b.x = Math.random()*W; }
-      drawBubble(b);
-    });
-    droplets.forEach(d => {
-      d.life += 1;
-      d.y += d.slideSpeed * Math.sin(d.life*0.01)*0.3 + d.slideSpeed*0.2;
-      if(d.y > H + 20){ d.y = -20; d.x = Math.random()*W; }
-      drawDroplet(d);
-    });
-    raf = requestAnimationFrame(tick);
-  }
-
-  if(!reduceMotion){
-    tick();
-  } else {
-    ctx.clearRect(0,0,W,H);
-    bubbles.forEach(drawBubble);
-    droplets.forEach(drawDroplet);
-  }
-
-  document.addEventListener('visibilitychange', () => {
-    if(document.hidden && raf) cancelAnimationFrame(raf);
-    else if(!document.hidden && !reduceMotion) tick();
-  });
-})();
-
-/* ============ CURSOR GLOW ============ */
-(function(){
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouch = window.matchMedia('(pointer: coarse)').matches;
-  if(reduceMotion || isTouch) return;
-  const glow = document.createElement('div');
-  glow.id = 'cursorGlow';
-  glow.style.opacity = '0';
-  document.body.appendChild(glow);
-  let tx=0, ty=0, cx=0, cy=0, shown=false;
-  window.addEventListener('mousemove', e => {
-    tx = e.clientX; ty = e.clientY;
-    if(!shown){ cx = tx; cy = ty; shown = true; glow.style.opacity = '1'; }
-  }, {passive:true});
-  function loop(){
-    cx += (tx-cx)*0.12; cy += (ty-cy)*0.12;
-    glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
-    requestAnimationFrame(loop);
-  }
-  loop();
-})();
-
-/* ============ 3D TILT ON CARDS ============ */
-(function(){
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouch = window.matchMedia('(pointer: coarse)').matches;
-  if(reduceMotion || isTouch) return;
-  document.body.addEventListener('mousemove', e => {
-    const el = e.target.closest('.tilt');
-    document.querySelectorAll('.tilt.tilt-active').forEach(t => { if(t!==el){ t.style.transform=''; t.classList.remove('tilt-active'); } });
-    if(!el) return;
-    el.classList.add('tilt-active');
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(700px) rotateX(${(-py*7).toFixed(2)}deg) rotateY(${(px*7).toFixed(2)}deg) translateZ(4px)`;
-  }, {passive:true});
-  document.body.addEventListener('mouseleave', () => {
-    document.querySelectorAll('.tilt.tilt-active').forEach(t => { t.style.transform=''; t.classList.remove('tilt-active'); });
-  });
-})();
-
-/* ============ MAGNETIC BUTTONS ============ */
-(function(){
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouch = window.matchMedia('(pointer: coarse)').matches;
-  if(reduceMotion || isTouch) return;
-  document.querySelectorAll('.magnetic').forEach(wrap => {
-    const btn = wrap.querySelector('.pill-btn');
-    if(!btn) return;
-    wrap.addEventListener('mousemove', e => {
-      const r = wrap.getBoundingClientRect();
-      const mx = e.clientX - (r.left + r.width/2);
-      const my = e.clientY - (r.top + r.height/2);
-      btn.style.transform = `translate(${mx*0.25}px, ${my*0.35}px)`;
-    });
-    wrap.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-  });
-})();
-
-/* ============ HERO GLASS: bubbles, drops, parallax ============ */
-(function(){
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const bubblesG = document.getElementById('heroBubbles');
-  const dropsG = document.getElementById('heroDrops');
-  if(bubblesG){
-    for(let i=0;i<10;i++){
-      const cx = 145 + Math.random()*110;
-      const r = 2 + Math.random()*4;
-      const dur = 4 + Math.random()*3;
-      const delay = Math.random()*4;
-      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
-      c.setAttribute('cx', cx); c.setAttribute('cy', 340); c.setAttribute('r', r);
-      c.setAttribute('fill', 'rgba(255,220,220,0.55)');
-      if(!reduceMotion){
-        const anim = document.createElementNS('http://www.w3.org/2000/svg','animate');
-        anim.setAttribute('attributeName','cy'); anim.setAttribute('from','345'); anim.setAttribute('to','95');
-        anim.setAttribute('dur', dur+'s'); anim.setAttribute('begin', delay+'s'); anim.setAttribute('repeatCount','indefinite');
-        c.appendChild(anim);
-        const anim2 = document.createElementNS('http://www.w3.org/2000/svg','animate');
-        anim2.setAttribute('attributeName','opacity'); anim2.setAttribute('values','0;0.7;0'); anim2.setAttribute('dur', dur+'s');
-        anim2.setAttribute('begin', delay+'s'); anim2.setAttribute('repeatCount','indefinite');
-        c.appendChild(anim2);
-      }
-      bubblesG.appendChild(c);
-    }
-  }
-  if(dropsG){
-    for(let i=0;i<6;i++){
-      const cx = 140 + Math.random()*130;
-      const cy = 60 + Math.random()*270;
-      const rx = 3 + Math.random()*3;
-      const e = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
-      e.setAttribute('cx', cx); e.setAttribute('cy', cy); e.setAttribute('rx', rx); e.setAttribute('ry', rx*1.4);
-      e.setAttribute('fill', 'rgba(243,233,221,0.35)');
-      dropsG.appendChild(e);
-    }
-  }
-  if(!reduceMotion){
-    const visual = document.getElementById('heroVisual');
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if(visual) visual.style.transform = `translateY(${-48 + y*0.06}%) rotate(${y*0.01}deg)`;
-    }, {passive:true});
-  }
+  renderArchetypes();
+  renderGenres();
+  setupBrandList();
+  setupNavHighlight();
 })();
 </script>
 
