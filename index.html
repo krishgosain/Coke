@@ -288,7 +288,7 @@
   }
   .bucket.open{ border-color:rgba(228,0,43,0.4); }
   .bucket-head{
-    display:flex; align-items:center; justify-content:space-between; gap:20px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
     padding:22px 26px; cursor:pointer; user-select:none;
   }
   .bucket-head:hover .bucket-name{ color:var(--red-bright); }
@@ -446,6 +446,43 @@
 
   .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- Cursor glow ---------- */
+  #cursorGlow{
+    position:fixed; top:0; left:0; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(228,0,43,0.14) 0%, rgba(228,0,43,0.05) 40%, transparent 70%);
+    transform:translate(-50%,-50%);
+    pointer-events:none; z-index:1; will-change:transform;
+    transition:opacity .3s ease;
+  }
+  @media (max-width:900px){ #cursorGlow{ display:none; } }
+
+  /* ---------- Tilt cards ---------- */
+  .tilt{ transform-style:preserve-3d; will-change:transform; }
+
+  /* ---------- Hero visual (SVG glass) ---------- */
+  .hero-visual{
+    position:absolute; right:-4%; top:50%; transform:translateY(-48%);
+    width:min(46vw, 620px); height:min(46vw, 620px);
+    z-index:1; opacity:0.9; pointer-events:none;
+  }
+  .hero-visual svg{ width:100%; height:100%; }
+  @media (max-width:980px){ .hero-visual{ opacity:0.22; right:-10%; width:80vw; height:80vw; } }
+
+  /* ---------- Magnetic button wrap ---------- */
+  .magnetic{ display:inline-block; }
+
+  /* ---------- Brand cap emblem ---------- */
+  .brand-emblem{ width:44px; height:44px; margin-bottom:14px; }
+
+  /* ---------- Engine icon svg ---------- */
+  .engine-icon svg{ width:19px; height:19px; }
+
+  /* ---------- Bucket icon ---------- */
+  .bucket-icon{ width:20px; height:20px; flex-shrink:0; opacity:0.75; }
+
+  /* ---------- Top20 glass chip ---------- */
+  .top20-glass{ width:34px; height:34px; flex-shrink:0; opacity:0.85; }
 </style>
 </head>
 <body>
@@ -474,13 +511,38 @@
 
 <!-- HERO -->
 <section id="hero">
+  <div class="hero-visual" id="heroVisual">
+    <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="glassBody" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#E4002B" stop-opacity="0.5"/>
+          <stop offset="55%" stop-color="#8C0019" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#2a0308" stop-opacity="0.15"/>
+        </linearGradient>
+        <radialGradient id="glassShine" cx="30%" cy="20%" r="60%">
+          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="softBlur"><feGaussianBlur stdDeviation="6"/></filter>
+      </defs>
+      <ellipse cx="200" cy="370" rx="120" ry="16" fill="#000" opacity="0.35" filter="url(#softBlur)"/>
+      <path d="M150 40 L250 40 L250 100 Q270 130 270 190 L270 330 Q270 355 245 355 L155 355 Q130 355 130 330 L130 190 Q130 130 150 100 Z"
+            fill="url(#glassBody)" stroke="rgba(244,231,219,0.35)" stroke-width="2"/>
+      <path d="M150 40 L250 40 L250 100 Q270 130 270 190 L270 330 Q270 355 245 355 L155 355 Q130 355 130 330 L130 190 Q130 130 150 100 Z"
+            fill="url(#glassShine)"/>
+      <rect x="130" y="205" width="140" height="150" fill="#FF2A44" opacity="0.14"/>
+      <line x1="150" y1="205" x2="250" y2="205" stroke="rgba(244,231,219,0.25)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <g id="heroBubbles"></g>
+      <g id="heroDrops" opacity="0.8"></g>
+    </svg>
+  </div>
   <div class="hero-inner">
     <div class="hero-eyebrow"><span class="dot"></span>WLDD × Coca-Cola India — Creator Strategy</div>
     <h1 class="hero-title">500 creators. 7 brands. <span class="accent">One</span> always-on machine.</h1>
     <p class="hero-sub">A creator content system built for how India actually drinks — from a matka in a village, to a hostel fridge in Tier 2, to a Gen Z feed in a metro.</p>
     <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px;">
-      <a href="#model" class="pill-btn primary">See the model</a>
-      <a href="#top20" class="pill-btn">Jump to Top 20</a>
+      <span class="magnetic"><a href="#model" class="pill-btn primary">See the model</a></span>
+      <span class="magnetic"><a href="#top20" class="pill-btn">Jump to Top 20</a></span>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><span class="num"><span class="red">106</span></span><span class="label">ideas mapped &amp; built out (62 + 44)</span></div>
@@ -642,14 +704,16 @@
 <script>
 /* ============ DATA ============ */
 
+const svgIcon = (paths) => `<svg viewBox="0 0 24 24" fill="none" stroke="#FF2A44" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+
 const engines = [
-  { icon:'◆', name:'Creator Farm', desc:'Long-term, face-led cultural presence — the identities we build to last.' },
-  { icon:'⚙', name:'Solo', desc:'Discovery, onboarding, briefing, contracting, payments, rights, scoring.' },
-  { icon:'✺', name:'Memed', desc:'Outcome-led seeding, amplification, and winner-scaling once something catches.' },
-  { icon:'▤', name:'WLDD Strategy', desc:'Portfolio planning, content architecture, campaign integration, governance.' },
-  { icon:'☆', name:'Creator IPs', desc:'Recurring shows, personalities, rituals, and formats that compound over time.' },
-  { icon:'⛨', name:'Distribution Insurance', desc:'Extra organic push when a priority asset underperforms its moment.' },
-  { icon:'▦', name:'Measurement', desc:'Dashboards connecting output → attention → culture → business signal.' },
+  { icon:svgIcon('<path d="M12 3 L4 8 L4 16 L12 21 L20 16 L20 8 Z"/><path d="M12 3 L12 21"/><path d="M4 8 L20 16"/><path d="M20 8 L4 16"/>'), name:'Creator Farm', desc:'Long-term, face-led cultural presence — the identities we build to last.' },
+  { icon:svgIcon('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>'), name:'Solo', desc:'Discovery, onboarding, briefing, contracting, payments, rights, scoring.' },
+  { icon:svgIcon('<path d="M12 2 L14 9 L21 9 L15.5 13.5 L17.5 21 L12 16.5 L6.5 21 L8.5 13.5 L3 9 L10 9 Z"/>'), name:'Memed', desc:'Outcome-led seeding, amplification, and winner-scaling once something catches.' },
+  { icon:svgIcon('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/>'), name:'WLDD Strategy', desc:'Portfolio planning, content architecture, campaign integration, governance.' },
+  { icon:svgIcon('<path d="M12 3 L14.5 9.5 L21 10 L16 14.3 L17.6 21 L12 17.3 L6.4 21 L8 14.3 L3 10 L9.5 9.5 Z"/>'), name:'Creator IPs', desc:'Recurring shows, personalities, rituals, and formats that compound over time.' },
+  { icon:svgIcon('<path d="M12 3 L20 6 L20 12 Q20 18 12 21 Q4 18 4 12 L4 6 Z"/><path d="M9 12l2 2 4-4"/>'), name:'Distribution Insurance', desc:'Extra organic push when a priority asset underperforms its moment.' },
+  { icon:svgIcon('<path d="M4 20V10M11 20V4M18 20v-7"/><path d="M2 20h20"/>'), name:'Measurement', desc:'Dashboards connecting output → attention → culture → business signal.' },
 ];
 
 const buckets = [
@@ -714,6 +778,17 @@ const top20 = [
   {rank:20, name:'Gum & Coke Dare', why:'A classic stunt format at near-zero cost — reliable, not flashy.', brand:'Coca-Cola', mech:'challenge'},
 ];
 
+const brandColors = {
+  'Coca-Cola':'#E4002B', 'Diet Coke':'#B7B9BC', 'Sprite':'#00A651', 'Fanta':'#FF7A00',
+  'Limca':'#00B04F', 'Thums Up':'#111111', 'Pulpy Orange':'#FF8C1A'
+};
+function capEmblem(color){
+  return `<svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="20" fill="${color}" opacity="0.16" stroke="${color}" stroke-width="1.5"/>
+  <g stroke="${color}" stroke-width="1.4" opacity="0.9">
+  ${Array.from({length:12}).map((_,i)=>{ const a = i*30*Math.PI/180; const x1=22+16*Math.cos(a), y1=22+16*Math.sin(a), x2=22+20*Math.cos(a), y2=22+20*Math.sin(a); return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`; }).join('')}
+  </g><circle cx="22" cy="22" r="10" fill="none" stroke="${color}" stroke-width="1.5"/></svg>`;
+}
+
 const brandData = [
   { name:'Coca-Cola', cohort:'Metro Gen Z and young urban India, always-on digital natives.', trigger:'Everyday refresh moments — meals, hangouts, late-night scrolling.', idea:'Find-10-Coke-Cans Reel and the Gum & Coke Dare stunt format.' },
   { name:'Diet Coke', cohort:'Urban professionals and hustle-culture audiences balancing routine and indulgence.', trigger:'Desk breaks, gym recovery, "treat yourself" moments.', idea:'Diet Coke Hustle Log — a running series of small wins.' },
@@ -749,7 +824,7 @@ const geoBars = [
 /* ============ RENDER ============ */
 
 document.getElementById('enginesGrid').innerHTML = engines.map(e => `
-  <div class="engine-card">
+  <div class="engine-card tilt">
     <div class="engine-icon">${e.icon}</div>
     <h4>${e.name}</h4>
     <p>${e.desc}</p>
@@ -759,6 +834,7 @@ document.getElementById('bucketList').innerHTML = buckets.map((b,i) => `
   <div class="bucket" data-idx="${i}">
     <div class="bucket-head" onclick="toggleBucket(${i})">
       <span class="bucket-num">${String(i+1).padStart(2,'0')}</span>
+      <svg class="bucket-icon" viewBox="0 0 24 24" fill="none" stroke="#FF2A44" stroke-width="1.4"><path d="M9 3h6l1 6.5c2 2 3 5 3 7.5a7 7 0 1 1-14 0c0-2.5 1-5.5 3-7.5Z"/></svg>
       <span class="bucket-name">${b.name}</span>
       <span class="bucket-plus"></span>
     </div>
@@ -833,7 +909,7 @@ function renderTop20(){
   else list.sort((a,b)=> a.rank - b.rank);
 
   document.getElementById('top20List').innerHTML = list.map(item => `
-    <div class="top20-item">
+    <div class="top20-item tilt">
       <div class="top20-rank">${String(item.rank).padStart(2,'0')}</div>
       <div class="top20-main">
         <h4>${item.name}</h4>
@@ -854,7 +930,8 @@ document.getElementById('brandTabs').innerHTML = BRANDS.map(b =>
 
 function renderBrandCards(){
   document.getElementById('brandGrid').innerHTML = brandData.map(b => `
-    <div class="brand-card ${globalBrandFilter && globalBrandFilter !== b.name ? 'dim':''}" data-brand="${b.name}">
+    <div class="brand-card tilt ${globalBrandFilter && globalBrandFilter !== b.name ? 'dim':''}" data-brand="${b.name}">
+      <div class="brand-emblem">${capEmblem(brandColors[b.name])}</div>
       <h4>${b.name}</h4>
       <div class="field"><div class="field-label">Core cohort</div><div class="field-val">${b.cohort}</div></div>
       <div class="field"><div class="field-label">Trigger occasion</div><div class="field-val">${b.trigger}</div></div>
@@ -1069,6 +1146,113 @@ function fizzSVG(seed){
     if(document.hidden && raf) cancelAnimationFrame(raf);
     else if(!document.hidden && !reduceMotion) tick();
   });
+})();
+
+/* ============ CURSOR GLOW ============ */
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+  if(reduceMotion || isTouch) return;
+  const glow = document.createElement('div');
+  glow.id = 'cursorGlow';
+  glow.style.opacity = '0';
+  document.body.appendChild(glow);
+  let tx=0, ty=0, cx=0, cy=0, shown=false;
+  window.addEventListener('mousemove', e => {
+    tx = e.clientX; ty = e.clientY;
+    if(!shown){ cx = tx; cy = ty; shown = true; glow.style.opacity = '1'; }
+  }, {passive:true});
+  function loop(){
+    cx += (tx-cx)*0.12; cy += (ty-cy)*0.12;
+    glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ============ 3D TILT ON CARDS ============ */
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+  if(reduceMotion || isTouch) return;
+  document.body.addEventListener('mousemove', e => {
+    const el = e.target.closest('.tilt');
+    document.querySelectorAll('.tilt.tilt-active').forEach(t => { if(t!==el){ t.style.transform=''; t.classList.remove('tilt-active'); } });
+    if(!el) return;
+    el.classList.add('tilt-active');
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(700px) rotateX(${(-py*7).toFixed(2)}deg) rotateY(${(px*7).toFixed(2)}deg) translateZ(4px)`;
+  }, {passive:true});
+  document.body.addEventListener('mouseleave', () => {
+    document.querySelectorAll('.tilt.tilt-active').forEach(t => { t.style.transform=''; t.classList.remove('tilt-active'); });
+  });
+})();
+
+/* ============ MAGNETIC BUTTONS ============ */
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+  if(reduceMotion || isTouch) return;
+  document.querySelectorAll('.magnetic').forEach(wrap => {
+    const btn = wrap.querySelector('.pill-btn');
+    if(!btn) return;
+    wrap.addEventListener('mousemove', e => {
+      const r = wrap.getBoundingClientRect();
+      const mx = e.clientX - (r.left + r.width/2);
+      const my = e.clientY - (r.top + r.height/2);
+      btn.style.transform = `translate(${mx*0.25}px, ${my*0.35}px)`;
+    });
+    wrap.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+})();
+
+/* ============ HERO GLASS: bubbles, drops, parallax ============ */
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const bubblesG = document.getElementById('heroBubbles');
+  const dropsG = document.getElementById('heroDrops');
+  if(bubblesG){
+    for(let i=0;i<10;i++){
+      const cx = 145 + Math.random()*110;
+      const r = 2 + Math.random()*4;
+      const dur = 4 + Math.random()*3;
+      const delay = Math.random()*4;
+      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx', cx); c.setAttribute('cy', 340); c.setAttribute('r', r);
+      c.setAttribute('fill', 'rgba(255,220,220,0.55)');
+      if(!reduceMotion){
+        const anim = document.createElementNS('http://www.w3.org/2000/svg','animate');
+        anim.setAttribute('attributeName','cy'); anim.setAttribute('from','345'); anim.setAttribute('to','95');
+        anim.setAttribute('dur', dur+'s'); anim.setAttribute('begin', delay+'s'); anim.setAttribute('repeatCount','indefinite');
+        c.appendChild(anim);
+        const anim2 = document.createElementNS('http://www.w3.org/2000/svg','animate');
+        anim2.setAttribute('attributeName','opacity'); anim2.setAttribute('values','0;0.7;0'); anim2.setAttribute('dur', dur+'s');
+        anim2.setAttribute('begin', delay+'s'); anim2.setAttribute('repeatCount','indefinite');
+        c.appendChild(anim2);
+      }
+      bubblesG.appendChild(c);
+    }
+  }
+  if(dropsG){
+    for(let i=0;i<6;i++){
+      const cx = 140 + Math.random()*130;
+      const cy = 60 + Math.random()*270;
+      const rx = 3 + Math.random()*3;
+      const e = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      e.setAttribute('cx', cx); e.setAttribute('cy', cy); e.setAttribute('rx', rx); e.setAttribute('ry', rx*1.4);
+      e.setAttribute('fill', 'rgba(243,233,221,0.35)');
+      dropsG.appendChild(e);
+    }
+  }
+  if(!reduceMotion){
+    const visual = document.getElementById('heroVisual');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if(visual) visual.style.transform = `translateY(${-48 + y*0.06}%) rotate(${y*0.01}deg)`;
+    }, {passive:true});
+  }
 })();
 </script>
 
